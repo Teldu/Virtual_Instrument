@@ -5,7 +5,7 @@ You will need the application folder on desktop in order to be able to read the 
 All files need to be in a folder called Virtual_Instrument.
 TURN APP SANDBOX OFF OR APP WILL CRASH
 
-If these two requirements are fulfilled, you should be able to run it with play button at top left
+If these requirements are fulfilled, you should be able to run it with play button at top left
 (Build and run current scheme)
 
 Other notes/Known Issues:
