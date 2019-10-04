@@ -68,6 +68,10 @@ class ViewController: NSViewController {
     @IBOutlet weak var ReverbMenu: NSPopUpButtonCell!
     @IBOutlet weak var OctaveSelect: NSPopUpButtonCell!
     
+    @IBOutlet weak var volume: NSSliderCell!
+    @IBOutlet weak var pan: NSSliderCell!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,6 +159,16 @@ class ViewController: NSViewController {
         DRText.title = String(format: "%.2f", DelayRatio.doubleValue)
         DFBT.title = String(format: "%.2f", DelayFeedback.doubleValue)
         VerbText.title = String(format: "%.2f", ReverbRatio.doubleValue)
+        
+        //volume/pan setup
+        volume.isContinuous = true
+        volume.minValue = 0.0
+        volume.maxValue = 1.0
+        volume.floatValue = 0.5
+        pan.isContinuous = true
+        pan.minValue = -1.0
+        pan.maxValue = 1.0
+        pan.floatValue = 0.0
     }
 
     override var representedObject: Any? {
@@ -289,6 +303,15 @@ class ViewController: NSViewController {
         }
     }
     
+    //Volume/Pan Functions
+    @IBAction func modVolume(_ sender: Any) {
+        curPlayer[noteNum]!.mixerNode.outputVolume = volume.floatValue
+    }
+    @IBAction func modPan(_ sender: Any) {
+        curPlayer[noteNum]!.mixerNode.pan = pan.floatValue * -1.0
+    }
+    
+    
     //Play Notes
     @IBAction func playC(_ sender: Any) {
         noteNum = 0
@@ -296,14 +319,9 @@ class ViewController: NSViewController {
             curPlayer[0] = setUpPlayback (fn: myVar.C[oct])
             operationQueue.addOperation{
                 self.eqSetup(player: self.curPlayer[0]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+                self.curPlayer[0]?.mixerNode.outputVolume = self.volume.floatValue
+                self.curPlayer[0]?.mixerNode.pan = self.pan.floatValue * -1.0
                 self.playFile(player: self.curPlayer[0]!)
-            }
-        }
-        else{
-            curPlayer[0] = setUpPlayback (fn: myVar.C[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[0]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[0]!, note: self.myVar.cArray[self.oct])
             }
         }
     }
@@ -313,14 +331,9 @@ class ViewController: NSViewController {
             curPlayer[1] = setUpPlayback (fn: myVar.Db[oct])
             operationQueue.addOperation{
                 self.eqSetup(player: self.curPlayer[1]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+                self.curPlayer[1]?.mixerNode.outputVolume = self.volume.floatValue
+                self.curPlayer[1]?.mixerNode.pan = self.pan.floatValue * -1.0
                 self.playFile(player: self.curPlayer[1]!)
-            }
-        }
-        else{
-            curPlayer[1] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[1]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[1]!, note: self.myVar.csArray[self.oct])
             }
         }
     }
@@ -330,15 +343,10 @@ class ViewController: NSViewController {
         curPlayer[2] = setUpPlayback (fn: myVar.D[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[2]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[2]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[2]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[2]!)
         }
-        }
-        else{
-            curPlayer[2] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[2]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[2]!, note: self.myVar.dArray[self.oct])
-            }
         }
     }
     @IBAction func playEF(_ sender: Any) {
@@ -347,15 +355,10 @@ class ViewController: NSViewController {
         curPlayer[3] = setUpPlayback (fn: myVar.Eb[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[3]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[3]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[3]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[3]!)
         }
-        }
-        else{
-            curPlayer[3] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[3]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[3]!, note: self.myVar.efArray[self.oct])
-            }
         }
     }
     @IBAction func playE(_ sender: Any) {
@@ -364,15 +367,10 @@ class ViewController: NSViewController {
         curPlayer[4] = setUpPlayback (fn: myVar.E[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[4]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[4]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[4]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[4]!)
         }
-        }
-        else{
-            curPlayer[4] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[4]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[4]!, note: self.myVar.eArray[self.oct])
-            }
         }
     }
     @IBAction func playF(_ sender: Any) {
@@ -381,15 +379,10 @@ class ViewController: NSViewController {
         curPlayer[5] = setUpPlayback (fn: myVar.F[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[5]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[5]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[5]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[5]!)
         }
-        }
-        else{
-            curPlayer[5] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[5]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[5]!, note: self.myVar.fArray[self.oct])
-            }
         }
     }
     @IBAction func playFS(_ sender: Any) {
@@ -398,15 +391,10 @@ class ViewController: NSViewController {
         curPlayer[6] = setUpPlayback (fn: myVar.Gb[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[6]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[6]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[6]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[6]!)
         }
-        }
-        else{
-            curPlayer[6] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[6]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[6]!, note: self.myVar.fsArray[self.oct])
-            }
         }
     }
     @IBAction func playG(_ sender: Any) {
@@ -415,15 +403,10 @@ class ViewController: NSViewController {
         curPlayer[7] = setUpPlayback (fn: myVar.G[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[7]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[7]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[7]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[7]!)
         }
-        }
-        else{
-            curPlayer[7] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[7]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[7]!, note: self.myVar.gArray[self.oct])
-            }
         }
     }
     @IBAction func playGS(_ sender: Any) {
@@ -432,15 +415,10 @@ class ViewController: NSViewController {
         curPlayer[8] = setUpPlayback (fn: myVar.Ab[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[8]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[8]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[8]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[8]!)
         }
-        }
-        else{
-            curPlayer[8] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[8]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[8]!, note: self.myVar.gsArray[self.oct])
-            }
         }
     }
     @IBAction func playA(_ sender: Any) {
@@ -449,15 +427,10 @@ class ViewController: NSViewController {
         curPlayer[9] = setUpPlayback (fn: myVar.A[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[9]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[9]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[9]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[9]!)
         }
-        }
-        else{
-            curPlayer[9] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[9]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[9]!, note: self.myVar.aArray[self.oct])
-            }
         }
     }
     @IBAction func playAS(_ sender: Any) {
@@ -466,15 +439,10 @@ class ViewController: NSViewController {
         curPlayer[10] = setUpPlayback (fn: myVar.Bb[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[10]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[10]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[10]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[10]!)
         }
-        }
-        else{
-            curPlayer[10] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[10]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[10]!, note: self.myVar.asArray[self.oct])
-            }
         }
     }
     @IBAction func playB(_ sender: Any) {
@@ -483,15 +451,10 @@ class ViewController: NSViewController {
         curPlayer[11] = setUpPlayback (fn: myVar.B[oct])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[11]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[11]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[11]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[11]!)
         }
-        }
-        else{
-            curPlayer[11] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[11]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[11]!, note: self.myVar.bArray[self.oct])
-            }
         }
     }
     @IBAction func playCH(_ sender: Any) {
@@ -500,15 +463,10 @@ class ViewController: NSViewController {
         curPlayer[12] = setUpPlayback (fn: myVar.C[oct + 1])
         operationQueue.addOperation{
             self.eqSetup(player: self.curPlayer[12]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            self.curPlayer[12]?.mixerNode.outputVolume = self.volume.floatValue
+            self.curPlayer[12]?.mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: self.curPlayer[12]!)
         }
-        }
-        else{
-            curPlayer[12] = setUpPlayback (fn: myVar.Db[oct])
-            operationQueue.addOperation {
-                self.eqSetup(player: self.curPlayer[12]!, freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-                self.sineWave(player: self.curPlayer[12]!, note: self.myVar.cArray[self.oct + 1])
-            }
         }
     }
 }

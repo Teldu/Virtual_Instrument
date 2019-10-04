@@ -106,37 +106,6 @@ extension ViewController{
     func pausePlayback(player: playerStruct){
         player.playerNode.pause()
     }
-    func setMixerVolume(player: playerStruct, volume: Float){
-        player.mixerNode.outputVolume = volume
-    }
-    
-    func sineWave(player: playerStruct, note: Float){
-        buffer = AVAudioPCMBuffer(pcmFormat: (player.playerNode.outputFormat(forBus: 0)), frameCapacity: 44100)
-        buffer?.frameLength = 44100
-        
-        // generate sine wave
-        let sr:Float = Float((player.mixerNode.outputFormat(forBus: 0).sampleRate))
-        let n_channels = player.mixerNode.outputFormat(forBus: 0).channelCount
-        
-        for i in stride(from:0, to: Int((buffer?.frameLength)!), by: Int(n_channels)) {
-            let val = sinf(note*Float(i)*2*Float(Double.pi)/sr)
-            buffer?.floatChannelData?.pointee[i] = val * 0.5
-        }
-        
-        // setup audio engine
-        player.engine.attach(player.playerNode)
-        player.engine.connect(player.playerNode, to: player.mixerNode, format: player.playerNode.outputFormat(forBus: 0))
-        do{
-            try player.engine.start()
-        } catch {
-            
-        }
-        
-        // play player and buffer
-        player.playerNode.play()
-        player.playerNode.scheduleBuffer(buffer!, at: nil, completionHandler: nil)
-        
-    }
     
     func eqSetup(player: playerStruct, freq1: Float, freq2: Float, freq3: Float, bw1: Float, bw2: Float, bw3: Float, g1: Float, g2: Float, g3: Float){
         player.eqNode.bands[0].frequency = freq1
