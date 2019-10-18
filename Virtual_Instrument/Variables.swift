@@ -7,22 +7,23 @@
 //
 
 import Foundation
+import CoreMIDI
 
 class vari{
 
     //Note Arrays
-    let cArray:[Float] = [32.70, 65.41, 130.81, 261.63, 523.25, 1046.50]
-    let csArray:[Float] = [34.65, 69.30, 138.59, 277.18, 554.37]
-    let dArray:[Float] = [36.71, 73.42, 146.83, 293.66, 587.33]
-    let efArray:[Float] = [38.89, 77.78, 155.56, 311.13, 622.25]
-    let eArray:[Float] = [41.20, 82.41, 164.81, 329.63, 659.25]
-    let fArray:[Float] = [43.65, 87.31, 174.61, 349.23, 698.46]
-    let fsArray:[Float] = [46.25, 92.5, 185, 369.99, 739.99]
-    let gArray:[Float] = [49.00, 98.0, 196, 392, 783.99]
-    let gsArray:[Float] = [51.91, 103.83, 207.65, 415.3, 830.61]
-    let aArray:[Float] = [55.00, 110, 220, 440, 880]
-    let asArray:[Float] = [58.27, 116.54, 233.08, 466.16, 932.33]
-    let bArray:[Float] = [61.47, 123.47, 246.94, 493.88, 987.77]
+    let cArray:[Float] = [32.70, 65.41, 130.81, 261.63, 523.25, 1046.50] //24, 36, 48, 60, 72, 84 --> corresponding MIDI values
+    let csArray:[Float] = [34.65, 69.30, 138.59, 277.18, 554.37] //25, 37, 49, 61, 73, 85
+    let dArray:[Float] = [36.71, 73.42, 146.83, 293.66, 587.33] //26, 38, 50, 62, 74, 86
+    let efArray:[Float] = [38.89, 77.78, 155.56, 311.13, 622.25] //27, 39, 51, 63, 75, 87
+    let eArray:[Float] = [41.20, 82.41, 164.81, 329.63, 659.25] //28, 40, 52, 64, 76, 88
+    let fArray:[Float] = [43.65, 87.31, 174.61, 349.23, 698.46] //29, 41, 53, 65, 77, 89
+    let fsArray:[Float] = [46.25, 92.5, 185, 369.99, 739.99] //30, 42, 54, 66, 78, 90
+    let gArray:[Float] = [49.00, 98.0, 196, 392, 783.99] //31, 43, 55, 67, 79, 91
+    let gsArray:[Float] = [51.91, 103.83, 207.65, 415.3, 830.61] //32, 44, 56, 68, 80, 92
+    let aArray:[Float] = [55.00, 110, 220, 440, 880] //33, 45, 57, 69, 81, 93
+    let asArray:[Float] = [58.27, 116.54, 233.08, 466.16, 932.33] //34, 46, 58, 70, 82, 94
+    let bArray:[Float] = [61.47, 123.47, 246.94, 493.88, 987.77] //35, 47, 59, 71, 83, 95
     
     let C = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C1.mp3", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C2.mp3", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C3.mp3", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C4.mp3", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C5.mp3", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C6.mp3"]
     
@@ -73,4 +74,7 @@ class vari{
     let mBb = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/Bb1.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/Bb2.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/Bb3.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/Bb4.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/Bb5.mid"]
     
     let mB = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/B1.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/B2.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/B3.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/B4.mid", NSHomeDirectory() + "/Desktop/Virtual_Instrument/.midiFiles/B5.mid"]
+    
+    let outLocation = NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/out.wav"
+    
 }

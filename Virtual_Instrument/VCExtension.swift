@@ -128,24 +128,26 @@ extension ViewController{
         //recordingEngine.attach(output.mainMixerNode)
         //recordingEngine.connect(output.mainMixerNode, to: recordingEngine.inputNode, format: nil)
         let bus = 0
-        let inputFormat = recordingEngine.inputNode.inputFormat(forBus: bus)
+        let inputFormat = curPlayer2.engine.mainMixerNode.outputFormat(forBus: bus)
                 
-        let outputURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("out.caf")
-        print("writing to \(outputURL)")
+        let urlstring = NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/out.wav"
+        let outputURL = NSURL(string: urlstring)
+        print("writing to \(String(describing: outputURL))")
 
-        outputFile = try! AVAudioFile(forWriting: outputURL, settings: inputFormat.settings, commonFormat: inputFormat.commonFormat, interleaved: inputFormat.isInterleaved)
+        outputFile = try! AVAudioFile(forWriting: outputURL as! URL, settings: inputFormat.settings, commonFormat: inputFormat.commonFormat, interleaved: inputFormat.isInterleaved)
         
-        recordingEngine.inputNode.installTap(onBus: bus, bufferSize: 512, format: inputFormat) { (buffer, time) in
+        curPlayer2.engine.mainMixerNode.installTap(onBus: bus, bufferSize: 512, format: inputFormat) { (buffer, time) in
             try! outputFile?.write(from: buffer)
         }
 
-        try! recordingEngine.start()
+        try! curPlayer2.engine.start()
     }
     
     func stopRecording() {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
+            curPlayer2.engine.stop()
+            curPlayer2.engine.mainMixerNode.removeTap(onBus: 0)
             print("Recording Finished")
-            self.recordingEngine.stop()
             outputFile = nil
         }
     }

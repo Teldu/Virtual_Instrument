@@ -120,6 +120,7 @@ let testDelay: AVAudioUnitDelay = AVAudioUnitDelay()
 let testEQ: AVAudioUnitEQ = AVAudioUnitEQ()
 
 var curPlayer = [playerStruct]()
+var curPlayer2 = playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ)
 var testPlayer = outputStruct(engine: testEngine, playerNode: testP, mixerNode: testMix)
 
 func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
@@ -167,6 +168,7 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
         packet = MIDIPacketNext(&packet).pointee
     }
 }
+
 
 class ViewController: NSViewController {
     
@@ -468,12 +470,19 @@ class ViewController: NSViewController {
     
     
     @IBAction func recStart(_ sender: Any) {
+        curPlayer2 = setUpPlayback (fn: myVar.C[oct])
         startRecording(output: mainEngine)
+        playFile(player: curPlayer2)
+        
     }
     @IBAction func recStop(_ sender: Any) {
         stopRecording()
     }
     
+    @IBAction func playBack(_ sender: Any) {
+        curPlayer2 = setUpPlayback(fn: myVar.outLocation)
+        playFile(player: curPlayer2)
+    }
     
     
     //Play Notes
