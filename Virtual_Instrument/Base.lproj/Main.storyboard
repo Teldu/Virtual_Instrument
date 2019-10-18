@@ -713,7 +713,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RPX-01-Rjp">
                                 <rect key="frame" x="5" y="392" width="112" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="RPX-01-Rjp" secondAttribute="height" multiplier="108:17" id="0KW-PQ-tNb"/>
+                                    <constraint firstAttribute="width" secondItem="RPX-01-Rjp" secondAttribute="height" multiplier="108:17" id="445-vP-mTs"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Select Instrument" id="aL3-3s-g9P">
                                     <font key="font" metaFont="system"/>
@@ -724,7 +724,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aAQ-Ms-hS5">
                                 <rect key="frame" x="209" y="187" width="56" height="18"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="aAQ-Ms-hS5" secondAttribute="height" multiplier="26:7" id="W1s-iH-feD"/>
+                                    <constraint firstAttribute="width" secondItem="aAQ-Ms-hS5" secondAttribute="height" multiplier="26:7" id="4g5-YM-Obc"/>
                                 </constraints>
                                 <buttonCell key="cell" type="check" title="Delay" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fkE-kT-AnI">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -737,7 +737,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="evz-3n-g1b">
                                 <rect key="frame" x="336" y="183" width="65" height="27"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="evz-3n-g1b" secondAttribute="height" multiplier="61:23" id="ulH-eV-Ewf"/>
+                                    <constraint firstAttribute="width" secondItem="evz-3n-g1b" secondAttribute="height" multiplier="61:23" id="E5t-2i-WfY"/>
                                 </constraints>
                                 <buttonCell key="cell" type="check" title="Reverb" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aV5-v0-nZB">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -750,7 +750,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="808-cP-ts2" userLabel="ReverbRatio">
                                 <rect key="frame" x="336" y="96" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="808-cP-ts2" secondAttribute="height" multiplier="1:1" id="zni-Fe-awc"/>
+                                    <constraint firstAttribute="width" secondItem="808-cP-ts2" secondAttribute="height" multiplier="1:1" id="uOI-cF-hdQ"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="M7m-Qg-3hH">
                                     <connections>
@@ -761,7 +761,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cJK-hL-CQc">
                                 <rect key="frame" x="368" y="121" width="54" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="cJK-hL-CQc" secondAttribute="height" multiplier="50:17" id="ebM-Ry-lJw"/>
+                                    <constraint firstAttribute="width" secondItem="cJK-hL-CQc" secondAttribute="height" multiplier="50:17" id="m1O-3o-2Sh"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Wet/Dry" id="7gD-m0-C9W">
                                     <font key="font" metaFont="system"/>
@@ -772,7 +772,7 @@
                             <popUpButton verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A2A-rX-Lxq">
                                 <rect key="frame" x="336" y="154" width="91" height="26"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="A2A-rX-Lxq" secondAttribute="height" multiplier="43:11" id="xm8-Ht-nfO"/>
+                                    <constraint firstAttribute="width" secondItem="A2A-rX-Lxq" secondAttribute="height" multiplier="43:11" id="zMO-TD-Fb8"/>
                                 </constraints>
                                 <popUpButtonCell key="cell" type="push" title="Small" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="aot-Oq-DpY" id="THV-4Y-6WW">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -791,7 +791,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-PF-Ckp">
                                 <rect key="frame" x="209" y="366" width="40" height="18"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="DbA-PF-Ckp" secondAttribute="height" multiplier="18:7" id="MLX-48-dzf"/>
+                                    <constraint firstAttribute="width" secondItem="DbA-PF-Ckp" secondAttribute="height" multiplier="18:7" id="ArK-V2-gfH"/>
                                 </constraints>
                                 <buttonCell key="cell" type="check" title="EQ" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jhg-ft-mWu">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -801,7 +801,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wPh-Bi-C43" userLabel="EQFreq1">
                                 <rect key="frame" x="209" y="318" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="wPh-Bi-C43" secondAttribute="height" multiplier="1:1" id="620-cv-TDf"/>
+                                    <constraint firstAttribute="width" secondItem="wPh-Bi-C43" secondAttribute="height" multiplier="1:1" id="JuV-Zl-uyv"/>
                                 </constraints>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="57.749731404537272" allowsTickMarkValuesOnly="YES" sliderType="circular" id="IGe-3I-TOa">
                                     <connections>
@@ -812,7 +812,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0GI-RH-Toc" userLabel="EQGain1">
                                 <rect key="frame" x="209" y="275" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="0GI-RH-Toc" secondAttribute="height" multiplier="1:1" id="uYM-oH-Ukc"/>
+                                    <constraint firstAttribute="width" secondItem="0GI-RH-Toc" secondAttribute="height" multiplier="1:1" id="8cM-Q8-Hdj"/>
                                 </constraints>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="43.228546239026997" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Dyw-sj-Wy2">
                                     <connections>
@@ -823,7 +823,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VYc-62-ks0">
                                 <rect key="frame" x="236" y="346" width="32" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="VYc-62-ks0" secondAttribute="height" multiplier="28:17" id="cxi-79-OqE"/>
+                                    <constraint firstAttribute="width" secondItem="VYc-62-ks0" secondAttribute="height" multiplier="28:17" id="9He-i4-qK3"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Freq" id="RhG-bi-wMG">
                                     <font key="font" metaFont="system"/>
@@ -834,7 +834,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9L2-54-0Ek">
                                 <rect key="frame" x="236" y="300" width="32" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="9L2-54-0Ek" secondAttribute="height" multiplier="28:17" id="QeT-7y-Pzo"/>
+                                    <constraint firstAttribute="width" secondItem="9L2-54-0Ek" secondAttribute="height" multiplier="28:17" id="6Ep-CA-YBx"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Gain" id="B0B-7s-omB">
                                     <font key="font" metaFont="system"/>
@@ -845,7 +845,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PKF-2w-6Gs">
                                 <rect key="frame" x="236" y="258" width="69" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="PKF-2w-6Gs" secondAttribute="height" multiplier="65:17" id="hmM-qy-7zS"/>
+                                    <constraint firstAttribute="width" secondItem="PKF-2w-6Gs" secondAttribute="height" multiplier="65:17" id="46M-Bz-y8n"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Bandwidth" id="KjF-Cf-tDS">
                                     <font key="font" metaFont="system"/>
@@ -854,9 +854,9 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ii1-Qd-887" userLabel="Freq1Text">
-                                <rect key="frame" x="239" y="321" width="68" height="22"/>
+                                <rect key="frame" x="239" y="321" width="65" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="ii1-Qd-887" secondAttribute="height" multiplier="34:11" id="EYN-Sn-KZp"/>
+                                    <constraint firstAttribute="width" secondItem="ii1-Qd-887" secondAttribute="height" multiplier="65:21" id="ZhJ-jm-eZV"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="yQe-ft-uI3">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="9SL-iX-92y"/>
@@ -868,7 +868,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EHH-U4-NQO" userLabel="Gain1Text">
                                 <rect key="frame" x="240" y="278" width="68" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="EHH-U4-NQO" secondAttribute="height" multiplier="34:11" id="MtY-73-Dmm"/>
+                                    <constraint firstAttribute="width" secondItem="EHH-U4-NQO" secondAttribute="height" multiplier="34:11" id="Emf-vf-ssO"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="oZK-h2-NKV">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="VOS-Os-rlk"/>
@@ -880,7 +880,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="02M-7n-ECZ" userLabel="BW1Text">
                                 <rect key="frame" x="240" y="232" width="68" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="02M-7n-ECZ" secondAttribute="height" multiplier="34:11" id="KK5-ht-Pl2"/>
+                                    <constraint firstAttribute="width" secondItem="02M-7n-ECZ" secondAttribute="height" multiplier="34:11" id="s14-st-Ors"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="f5w-Up-sCH">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="U4u-0d-U6u"/>
@@ -892,7 +892,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rku-a7-GxS" userLabel="EQBand1">
                                 <rect key="frame" x="209" y="227" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Rku-a7-GxS" secondAttribute="height" multiplier="1:1" id="3Cu-pc-fFE"/>
+                                    <constraint firstAttribute="width" secondItem="Rku-a7-GxS" secondAttribute="height" multiplier="1:1" id="kyz-5N-851"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Za0-oz-aYk" userLabel="EQBand1">
                                     <connections>
@@ -903,7 +903,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kRU-PG-094" userLabel="EQFreq2">
                                 <rect key="frame" x="336" y="318" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="kRU-PG-094" secondAttribute="height" multiplier="1:1" id="pXk-y9-Ywb"/>
+                                    <constraint firstAttribute="width" secondItem="kRU-PG-094" secondAttribute="height" multiplier="1:1" id="IQG-bm-DeS"/>
                                 </constraints>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50.875385396161022" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Bax-jM-47R">
                                     <connections>
@@ -914,7 +914,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4QJ-KP-Dl4" userLabel="EQGain2">
                                 <rect key="frame" x="336" y="275" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="4QJ-KP-Dl4" secondAttribute="height" multiplier="1:1" id="Hsz-AQ-X9M"/>
+                                    <constraint firstAttribute="width" secondItem="4QJ-KP-Dl4" secondAttribute="height" multiplier="1:1" id="CFL-30-Kt2"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Hz9-et-OtQ">
                                     <connections>
@@ -925,7 +925,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QQQ-W6-suN">
                                 <rect key="frame" x="362" y="346" width="32" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="QQQ-W6-suN" secondAttribute="height" multiplier="28:17" id="jOV-OX-aC3"/>
+                                    <constraint firstAttribute="width" secondItem="QQQ-W6-suN" secondAttribute="height" multiplier="28:17" id="XdS-C0-eWq"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Freq" id="NMm-BR-Y27">
                                     <font key="font" metaFont="system"/>
@@ -936,7 +936,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2nX-F3-kli">
                                 <rect key="frame" x="362" y="300" width="32" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="2nX-F3-kli" secondAttribute="height" multiplier="28:17" id="HxV-D1-JMl"/>
+                                    <constraint firstAttribute="width" secondItem="2nX-F3-kli" secondAttribute="height" multiplier="28:17" id="tAJ-kB-YWP"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Gain" id="oix-Jo-oMX">
                                     <font key="font" metaFont="system"/>
@@ -947,7 +947,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H6g-cE-iIp">
                                 <rect key="frame" x="362" y="258" width="69" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="H6g-cE-iIp" secondAttribute="height" multiplier="65:17" id="AjV-0A-Gb9"/>
+                                    <constraint firstAttribute="width" secondItem="H6g-cE-iIp" secondAttribute="height" multiplier="65:17" id="zE2-2G-LEP"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Bandwidth" id="kbP-AA-whM">
                                     <font key="font" metaFont="system"/>
@@ -956,9 +956,9 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gVn-KT-98N" userLabel="Freq2Text">
-                                <rect key="frame" x="366" y="321" width="68" height="22"/>
+                                <rect key="frame" x="366" y="321" width="68" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="gVn-KT-98N" secondAttribute="height" multiplier="34:11" id="yFG-ov-6Xb"/>
+                                    <constraint firstAttribute="width" secondItem="gVn-KT-98N" secondAttribute="height" multiplier="68:21" id="JSi-70-NLs"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="MGf-RU-1qD">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Bt5-o3-rTX"/>
@@ -970,7 +970,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hE3-eq-dBw" userLabel="Gain2Text">
                                 <rect key="frame" x="367" y="278" width="66" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="hE3-eq-dBw" secondAttribute="height" multiplier="3:1" id="1G0-Vf-OhG"/>
+                                    <constraint firstAttribute="width" secondItem="hE3-eq-dBw" secondAttribute="height" multiplier="3:1" id="brn-Y8-D3I"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="dJ8-UV-VMx">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="2XA-gj-9FD"/>
@@ -982,7 +982,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="07P-Jz-0ge" userLabel="BW2Text">
                                 <rect key="frame" x="366" y="232" width="68" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="07P-Jz-0ge" secondAttribute="height" multiplier="34:11" id="ydz-A7-yRu"/>
+                                    <constraint firstAttribute="width" secondItem="07P-Jz-0ge" secondAttribute="height" multiplier="34:11" id="4Px-Is-6yT"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Jot-65-4mC">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="KM3-nR-bfK"/>
@@ -994,7 +994,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m7B-KW-4Bc" userLabel="EQBand2">
                                 <rect key="frame" x="336" y="228" width="28" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="m7B-KW-4Bc" secondAttribute="height" multiplier="24:23" id="yBX-kx-82L"/>
+                                    <constraint firstAttribute="width" secondItem="m7B-KW-4Bc" secondAttribute="height" multiplier="24:23" id="nsY-W0-2Zl"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="BuG-mD-VKN" userLabel="EQBand2">
                                     <connections>
@@ -1005,7 +1005,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lb8-zS-mlp" userLabel="EQFreq3">
                                 <rect key="frame" x="455" y="318" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Lb8-zS-mlp" secondAttribute="height" multiplier="1:1" id="lAm-BG-pO5"/>
+                                    <constraint firstAttribute="width" secondItem="Lb8-zS-mlp" secondAttribute="height" multiplier="1:1" id="LFu-N7-jNg"/>
                                 </constraints>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50.619511451107726" allowsTickMarkValuesOnly="YES" sliderType="circular" id="cug-qZ-NL8">
                                     <connections>
@@ -1016,7 +1016,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FaZ-st-b5g" userLabel="EQGain3">
                                 <rect key="frame" x="453" y="275" width="30" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="FaZ-st-b5g" secondAttribute="height" multiplier="13:12" id="0X3-y2-xgX"/>
+                                    <constraint firstAttribute="width" secondItem="FaZ-st-b5g" secondAttribute="height" multiplier="13:12" id="N6m-Il-JV1"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="DEA-jM-eUC">
                                     <connections>
@@ -1027,7 +1027,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b6H-hN-snP">
                                 <rect key="frame" x="481" y="346" width="32" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="b6H-hN-snP" secondAttribute="height" multiplier="28:17" id="TpE-TH-62Y"/>
+                                    <constraint firstAttribute="width" secondItem="b6H-hN-snP" secondAttribute="height" multiplier="28:17" id="28x-vm-xi6"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Freq" id="o4F-1v-Vsn">
                                     <font key="font" metaFont="system"/>
@@ -1038,7 +1038,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AM8-d6-GwO">
                                 <rect key="frame" x="481" y="300" width="32" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="AM8-d6-GwO" secondAttribute="height" multiplier="28:17" id="J59-1V-pWd"/>
+                                    <constraint firstAttribute="width" secondItem="AM8-d6-GwO" secondAttribute="height" multiplier="28:17" id="MDc-dm-IG5"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Gain" id="Fvc-BR-pAi">
                                     <font key="font" metaFont="system"/>
@@ -1049,7 +1049,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2d0-3y-wnl">
                                 <rect key="frame" x="481" y="258" width="69" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="2d0-3y-wnl" secondAttribute="height" multiplier="65:17" id="O6X-Ac-fNx"/>
+                                    <constraint firstAttribute="width" secondItem="2d0-3y-wnl" secondAttribute="height" multiplier="65:17" id="nNT-70-Ub3"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Bandwidth" id="wpp-EA-apw">
                                     <font key="font" metaFont="system"/>
@@ -1058,9 +1058,9 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aoc-Rd-bTo" userLabel="Freq3Text">
-                                <rect key="frame" x="485" y="321" width="68" height="22"/>
+                                <rect key="frame" x="485" y="321" width="68" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="aoc-Rd-bTo" secondAttribute="height" multiplier="34:11" id="ZQN-0G-0y3"/>
+                                    <constraint firstAttribute="width" secondItem="aoc-Rd-bTo" secondAttribute="height" multiplier="68:21" id="dLm-eY-PMk"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="sil-kW-y2H">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="bga-Hy-ZUT"/>
@@ -1072,7 +1072,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9yj-gz-kbW" userLabel="Gain3Text">
                                 <rect key="frame" x="486" y="278" width="66" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="9yj-gz-kbW" secondAttribute="height" multiplier="3:1" id="ERw-Dw-BBN"/>
+                                    <constraint firstAttribute="width" secondItem="9yj-gz-kbW" secondAttribute="height" multiplier="3:1" id="qhp-Zm-Pp1"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="WwO-wj-tHu">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="vG8-Xs-zA8"/>
@@ -1084,7 +1084,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tds-C8-Jye" userLabel="BW3Text">
                                 <rect key="frame" x="485" y="232" width="68" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="tds-C8-Jye" secondAttribute="height" multiplier="34:11" id="RCt-UY-is2"/>
+                                    <constraint firstAttribute="width" secondItem="tds-C8-Jye" secondAttribute="height" multiplier="34:11" id="laD-1s-xYy"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Nzk-4i-zed">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="kzH-8o-Cuo"/>
@@ -1096,7 +1096,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NjA-MH-ndh" userLabel="EQBand3">
                                 <rect key="frame" x="455" y="227" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="NjA-MH-ndh" secondAttribute="height" multiplier="1:1" id="KDx-Ca-OW0"/>
+                                    <constraint firstAttribute="width" secondItem="NjA-MH-ndh" secondAttribute="height" multiplier="1:1" id="Dos-yb-wTx"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="bcf-Bt-Y29">
                                     <connections>
@@ -1107,7 +1107,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dCI-cz-OYX" userLabel="DelayRatio">
                                 <rect key="frame" x="202" y="95" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="dCI-cz-OYX" secondAttribute="height" multiplier="1:1" id="EUe-x4-xjN"/>
+                                    <constraint firstAttribute="width" secondItem="dCI-cz-OYX" secondAttribute="height" multiplier="1:1" id="hg2-sJ-Meg"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="seF-ae-ZAc">
                                     <connections>
@@ -1118,7 +1118,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="foU-Fr-kKf" userLabel="DelayTime">
                                 <rect key="frame" x="202" y="140" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="foU-Fr-kKf" secondAttribute="height" multiplier="1:1" id="d0K-74-rIF"/>
+                                    <constraint firstAttribute="width" secondItem="foU-Fr-kKf" secondAttribute="height" multiplier="1:1" id="fjZ-jB-Gcb"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="ftq-9i-asP">
                                     <connections>
@@ -1129,7 +1129,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fU7-zk-qF2">
                                 <rect key="frame" x="231" y="121" width="54" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="fU7-zk-qF2" secondAttribute="height" multiplier="50:17" id="6Wm-24-zOT"/>
+                                    <constraint firstAttribute="width" secondItem="fU7-zk-qF2" secondAttribute="height" multiplier="50:17" id="5DD-Y6-pf0"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Wet/Dry" id="ge0-5P-LGT">
                                     <font key="font" metaFont="system"/>
@@ -1140,7 +1140,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hLx-RQ-0ol">
                                 <rect key="frame" x="231" y="164" width="72" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="hLx-RQ-0ol" secondAttribute="height" multiplier="4:1" id="chC-FB-vVZ"/>
+                                    <constraint firstAttribute="width" secondItem="hLx-RQ-0ol" secondAttribute="height" multiplier="4:1" id="tPP-7o-jvb"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Delay Time" id="rdN-0j-KzH">
                                     <font key="font" metaFont="system"/>
@@ -1151,7 +1151,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-73-OnM">
                                 <rect key="frame" x="231" y="73" width="64" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="aGh-73-OnM" secondAttribute="height" multiplier="60:17" id="Akz-Ic-Ga0"/>
+                                    <constraint firstAttribute="width" secondItem="aGh-73-OnM" secondAttribute="height" multiplier="60:17" id="chZ-6a-C9D"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Feedback" id="ahL-rn-9pD">
                                     <font key="font" metaFont="system"/>
@@ -1162,7 +1162,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hyu-3c-gPt" userLabel="DelayRatioText">
                                 <rect key="frame" x="232" y="98" width="68" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Hyu-3c-gPt" secondAttribute="height" multiplier="34:11" id="niP-ld-Ec9"/>
+                                    <constraint firstAttribute="width" secondItem="Hyu-3c-gPt" secondAttribute="height" multiplier="34:11" id="R1j-j7-sTs"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="wnP-41-T6c">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="lav-5q-8r9"/>
@@ -1174,7 +1174,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZWS-YP-FXq" userLabel="ReverbRatioText">
                                 <rect key="frame" x="368" y="99" width="68" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="ZWS-YP-FXq" secondAttribute="height" multiplier="34:11" id="mCj-VY-CU5"/>
+                                    <constraint firstAttribute="width" secondItem="ZWS-YP-FXq" secondAttribute="height" multiplier="34:11" id="pS1-dL-FpD"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="GKu-QT-1qN">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="kQk-AZ-x8L"/>
@@ -1186,7 +1186,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LHC-s7-TSR" userLabel="DelayTimeText">
                                 <rect key="frame" x="233" y="143" width="68" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="LHC-s7-TSR" secondAttribute="height" multiplier="68:21" id="fQd-89-XlQ"/>
+                                    <constraint firstAttribute="width" secondItem="LHC-s7-TSR" secondAttribute="height" multiplier="68:21" id="6Dl-9i-JKe"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hRm-fF-TMD">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Y8C-Ss-Dgl"/>
@@ -1198,7 +1198,7 @@
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BX9-iN-sRr" userLabel="DelayFBText">
                                 <rect key="frame" x="233" y="52" width="68" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="BX9-iN-sRr" secondAttribute="height" multiplier="34:11" id="bYk-Y3-Nmt"/>
+                                    <constraint firstAttribute="width" secondItem="BX9-iN-sRr" secondAttribute="height" multiplier="34:11" id="az5-PJ-9BL"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="8Zm-q3-NcH">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="FOf-gA-X7f"/>
@@ -1210,7 +1210,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7xj-oC-X0l" userLabel="DelayFB">
                                 <rect key="frame" x="202" y="47" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="7xj-oC-X0l" secondAttribute="height" multiplier="1:1" id="RoA-Le-fii"/>
+                                    <constraint firstAttribute="width" secondItem="7xj-oC-X0l" secondAttribute="height" multiplier="1:1" id="EZJ-FK-nlL"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="W8u-sA-7kU">
                                     <connections>
@@ -1221,7 +1221,7 @@
                             <popUpButton verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Lq-a1-qFK">
                                 <rect key="frame" x="-2" y="249" width="96" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="4Lq-a1-qFK" secondAttribute="height" multiplier="13:3" id="ObW-fu-6wc"/>
+                                    <constraint firstAttribute="width" secondItem="4Lq-a1-qFK" secondAttribute="height" multiplier="13:3" id="KN2-az-nL6"/>
                                 </constraints>
                                 <popUpButtonCell key="cell" type="push" title="0" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="XBh-OG-uBo" id="bnc-Gc-B9R">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1241,7 +1241,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Idf-ms-QmA">
                                 <rect key="frame" x="-6" y="220" width="62" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Idf-ms-QmA" secondAttribute="height" multiplier="50:21" id="IPS-3v-QZi"/>
+                                    <constraint firstAttribute="width" secondItem="Idf-ms-QmA" secondAttribute="height" multiplier="50:21" id="MJB-DZ-wV3"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="C" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yYy-tM-cFk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1254,7 +1254,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UZF-Z9-feZ">
                                 <rect key="frame" x="-6" y="199" width="62" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="UZF-Z9-feZ" secondAttribute="height" multiplier="50:21" id="nCm-F7-qlv"/>
+                                    <constraint firstAttribute="width" secondItem="UZF-Z9-feZ" secondAttribute="height" multiplier="50:21" id="02l-K6-3O4"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="D" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FR1-yY-LFS">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1267,7 +1267,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wRc-0r-f2N">
                                 <rect key="frame" x="-6" y="178" width="62" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="wRc-0r-f2N" secondAttribute="height" multiplier="50:21" id="wbH-Hl-fmY"/>
+                                    <constraint firstAttribute="width" secondItem="wRc-0r-f2N" secondAttribute="height" multiplier="50:21" id="ik9-tQ-cc7"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="E" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oWX-S7-ERQ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1280,7 +1280,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pAX-77-max">
                                 <rect key="frame" x="-6" y="157" width="62" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="pAX-77-max" secondAttribute="height" multiplier="50:21" id="SvW-5w-kGX"/>
+                                    <constraint firstAttribute="width" secondItem="pAX-77-max" secondAttribute="height" multiplier="50:21" id="dM1-aS-eIq"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="F" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HRE-st-fDT">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1293,7 +1293,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ryX-C2-Xny">
                                 <rect key="frame" x="-6" y="136" width="62" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="ryX-C2-Xny" secondAttribute="height" multiplier="50:21" id="BiJ-0l-c3J"/>
+                                    <constraint firstAttribute="width" secondItem="ryX-C2-Xny" secondAttribute="height" multiplier="50:21" id="7Qv-HX-yDs"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="G" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="r9L-eS-5M3">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1306,7 +1306,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vyX-JT-1E6">
                                 <rect key="frame" x="-6" y="115" width="62" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="vyX-JT-1E6" secondAttribute="height" multiplier="50:21" id="6qs-2V-k1B"/>
+                                    <constraint firstAttribute="width" secondItem="vyX-JT-1E6" secondAttribute="height" multiplier="50:21" id="dyE-8t-9X0"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="A" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cbw-vy-4vJ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1319,7 +1319,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fUA-Ix-3fH">
                                 <rect key="frame" x="-6" y="93" width="62" height="33"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="fUA-Ix-3fH" secondAttribute="height" multiplier="25:11" id="DyJ-S9-2Tg"/>
+                                    <constraint firstAttribute="width" secondItem="fUA-Ix-3fH" secondAttribute="height" multiplier="25:11" id="OdN-7L-erf"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="B" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0bf-Ks-foH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1332,7 +1332,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OwD-IZ-RE8">
                                 <rect key="frame" x="41" y="211" width="58" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="OwD-IZ-RE8" secondAttribute="height" multiplier="46:21" id="eqC-IC-mn8"/>
+                                    <constraint firstAttribute="width" secondItem="OwD-IZ-RE8" secondAttribute="height" multiplier="46:21" id="lPh-ZU-pHa"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="C#" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Dhw-TV-qbB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1345,7 +1345,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pEW-bm-j8l">
                                 <rect key="frame" x="42" y="187" width="56" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="pEW-bm-j8l" secondAttribute="height" multiplier="44:21" id="ucY-KX-aRT"/>
+                                    <constraint firstAttribute="width" secondItem="pEW-bm-j8l" secondAttribute="height" multiplier="44:21" id="tPh-Bg-W7O"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="Eb" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nay-g0-EGf">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1358,7 +1358,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCt-GX-23v">
                                 <rect key="frame" x="41" y="145" width="58" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="TCt-GX-23v" secondAttribute="height" multiplier="46:21" id="mAA-rr-RmF"/>
+                                    <constraint firstAttribute="width" secondItem="TCt-GX-23v" secondAttribute="height" multiplier="46:21" id="ZM6-o3-uH8"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="F#" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="h1t-Wc-nW2">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1371,7 +1371,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="emt-mb-1Y6">
                                 <rect key="frame" x="41" y="124" width="58" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="emt-mb-1Y6" secondAttribute="height" multiplier="46:21" id="UtP-LO-9Mj"/>
+                                    <constraint firstAttribute="width" secondItem="emt-mb-1Y6" secondAttribute="height" multiplier="46:21" id="xwc-9o-fmL"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="G#" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jBe-i6-kfw">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1384,7 +1384,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u4b-Av-9jY">
                                 <rect key="frame" x="41" y="103" width="58" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="u4b-Av-9jY" secondAttribute="height" multiplier="46:21" id="gEt-j4-Ad9"/>
+                                    <constraint firstAttribute="width" secondItem="u4b-Av-9jY" secondAttribute="height" multiplier="46:21" id="Pxg-Q9-GnO"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="A#" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YzQ-aw-Njj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1397,7 +1397,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lp2-E7-JAA">
                                 <rect key="frame" x="-6" y="74" width="62" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Lp2-E7-JAA" secondAttribute="height" multiplier="50:21" id="wcA-ME-eel"/>
+                                    <constraint firstAttribute="width" secondItem="Lp2-E7-JAA" secondAttribute="height" multiplier="50:21" id="hr9-82-phO"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="C" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zpa-g2-YpH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1410,7 +1410,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Flc-YR-uDO">
                                 <rect key="frame" x="5" y="274" width="47" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Flc-YR-uDO" secondAttribute="height" multiplier="43:17" id="L8L-vy-t9d"/>
+                                    <constraint firstAttribute="width" secondItem="Flc-YR-uDO" secondAttribute="height" multiplier="43:17" id="cnl-Qi-2xX"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Octave" id="iW2-Gu-IbP">
                                     <font key="font" metaFont="system"/>
@@ -1421,7 +1421,7 @@
                             <popUpButton verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y13-fa-eUQ">
                                 <rect key="frame" x="-2" y="365" width="113" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Y13-fa-eUQ" secondAttribute="height" multiplier="36:7" id="SrN-ny-Aqv"/>
+                                    <constraint firstAttribute="width" secondItem="Y13-fa-eUQ" secondAttribute="height" multiplier="36:7" id="hvA-2g-9mk"/>
                                 </constraints>
                                 <popUpButtonCell key="cell" type="push" title="Piano" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Oiz-Ks-hSh" id="k0W-vK-Ty4">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1436,7 +1436,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47s-Tl-nMh">
                                 <rect key="frame" x="5" y="346" width="24" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="47s-Tl-nMh" secondAttribute="height" multiplier="20:17" id="3zE-1U-ICL"/>
+                                    <constraint firstAttribute="width" secondItem="47s-Tl-nMh" secondAttribute="height" multiplier="20:17" id="XYM-P9-dBX"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="L/R" id="A7b-ww-vOf">
                                     <font key="font" metaFont="system"/>
@@ -1447,7 +1447,7 @@
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="684-e9-872">
                                 <rect key="frame" x="3" y="316" width="28" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="684-e9-872" secondAttribute="height" multiplier="1:1" id="CQv-b5-GuJ"/>
+                                    <constraint firstAttribute="width" secondItem="684-e9-872" secondAttribute="height" multiplier="1:1" id="2Dg-jf-CFq"/>
                                 </constraints>
                                 <sliderCell key="cell" alignment="left" maxValue="100" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Dvn-kV-4bv">
                                     <connections>
@@ -1456,9 +1456,9 @@
                                 </sliderCell>
                             </slider>
                             <slider verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xBZ-fD-Ovw">
-                                <rect key="frame" x="46" y="322" width="96" height="18"/>
+                                <rect key="frame" x="39" y="322" width="103" height="18"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="xBZ-fD-Ovw" secondAttribute="height" multiplier="46:7" id="IZ5-Pm-apy"/>
+                                    <constraint firstAttribute="width" secondItem="xBZ-fD-Ovw" secondAttribute="height" multiplier="99:14" id="0SI-Ou-ixP"/>
                                 </constraints>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="fOz-LU-uHm">
                                     <connections>
@@ -1469,7 +1469,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FvJ-qb-tFd">
                                 <rect key="frame" x="70" y="346" width="48" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="FvJ-qb-tFd" secondAttribute="height" multiplier="44:17" id="Vcd-JD-whl"/>
+                                    <constraint firstAttribute="width" secondItem="FvJ-qb-tFd" secondAttribute="height" multiplier="44:17" id="7ev-dD-3zx"/>
                                 </constraints>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Volume" id="68d-ao-Dxg">
                                     <font key="font" metaFont="system"/>
@@ -1480,7 +1480,7 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q89-BD-ikW">
                                 <rect key="frame" x="466" y="383" width="63" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Q89-BD-ikW" secondAttribute="height" multiplier="17:7" id="aKb-ll-njt"/>
+                                    <constraint firstAttribute="width" secondItem="Q89-BD-ikW" secondAttribute="height" multiplier="17:7" id="iDT-29-oZV"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="Rec" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0hr-Q2-SpQ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1493,13 +1493,26 @@
                             <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ynx-eK-j3B">
                                 <rect key="frame" x="520" y="383" width="69" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Ynx-eK-j3B" secondAttribute="height" multiplier="19:7" id="82U-sa-kOW"/>
+                                    <constraint firstAttribute="width" secondItem="Ynx-eK-j3B" secondAttribute="height" multiplier="19:7" id="VJi-I4-cfq"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bbl-Ak-R4m">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <connections>
                                         <action selector="recStop:" target="XfG-lQ-9wD" id="pnY-th-Ncx"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22s-K3-8SG">
+                                <rect key="frame" x="494" y="357" width="95" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="22s-K3-8SG" secondAttribute="height" multiplier="83:21" id="Q8P-bp-FrV"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Playback" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xwc-5z-YNO">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="playBack:" target="XfG-lQ-9wD" id="mbS-j3-Mdb"/>
                                     </connections>
                                 </buttonCell>
                             </button>
@@ -1524,6 +1537,7 @@
                         <outlet property="EQF2T" destination="MGf-RU-1qD" id="kpa-5W-fU8"/>
                         <outlet property="EQF3T" destination="sil-kW-y2H" id="422-H8-nC8"/>
                         <outlet property="EQFreq1" destination="IGe-3I-TOa" id="mAQ-Hf-c5P"/>
+                        <outlet property="EQFreq1Icon" destination="m2S-Jp-Qdl" id="wO1-ZW-fO7"/>
                         <outlet property="EQFreq1Slide" destination="m2S-Jp-Qdl" id="Znf-kK-yQt"/>
                         <outlet property="EQFreq2" destination="Bax-jM-47R" id="2NL-6z-uRP"/>
                         <outlet property="EQFreq3" destination="cug-qZ-NL8" id="9WG-NY-CiK"/>
@@ -1533,6 +1547,7 @@
                         <outlet property="EQGain1" destination="Dyw-sj-Wy2" id="2tk-oc-B10"/>
                         <outlet property="EQGain2" destination="Hz9-et-OtQ" id="Hut-v1-IIA"/>
                         <outlet property="EQGain3" destination="DEA-jM-eUC" id="bLF-yo-1aI"/>
+                        <outlet property="EQIcon" destination="m2S-Jp-Qdl" id="Lf0-zF-Tgf"/>
                         <outlet property="InstrumentMenu" destination="Y13-fa-eUQ" id="3RF-Q3-8uU"/>
                         <outlet property="OctaveSelect" destination="bnc-Gc-B9R" id="Qfv-wL-YNe"/>
                         <outlet property="ReverbButton" destination="aV5-v0-nZB" id="iNr-49-17B"/>
