@@ -10,4 +10,3 @@ If these requirements are fulfilled, you should be able to run it with play butt
 Other notes/Known Issues:
 - Resizing window does not work in current version (buttons and text do not scale, but rather just stay in place)
 - EQ/Effects checkboxes not functioning
-- MIDI not implemented as of 9/26/19
