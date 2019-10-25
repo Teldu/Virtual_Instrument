@@ -1423,14 +1423,13 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Y13-fa-eUQ" secondAttribute="height" multiplier="36:7" id="hvA-2g-9mk"/>
                                 </constraints>
-                                <popUpButtonCell key="cell" type="push" title="Piano" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Oiz-Ks-hSh" id="k0W-vK-Ty4">
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="k0W-vK-Ty4">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="OCF-X3-pm7">
-                                        <items>
-                                            <menuItem title="Piano" state="on" id="Oiz-Ks-hSh" userLabel="Piano"/>
-                                        </items>
-                                    </menu>
+                                    <menu key="menu" id="OCF-X3-pm7"/>
+                                    <connections>
+                                        <action selector="instrumentSelection:" target="XfG-lQ-9wD" id="21H-sg-bLb"/>
+                                    </connections>
                                 </popUpButtonCell>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47s-Tl-nMh">
@@ -1555,6 +1554,7 @@
                         <outlet property="ReverbRatio" destination="M7m-Qg-3hH" id="nfs-f4-p5S"/>
                         <outlet property="ReverbSelect" destination="A2A-rX-Lxq" id="MHb-wY-TYR"/>
                         <outlet property="VerbText" destination="GKu-QT-1qN" id="6ln-Ae-TpC"/>
+                        <outlet property="instrumentSelection" destination="OCF-X3-pm7" id="kEe-0L-rVa"/>
                         <outlet property="mainPan" destination="Dvn-kV-4bv" id="aJH-7d-qjc"/>
                         <outlet property="mainVolume" destination="fOz-LU-uHm" id="4I7-Cr-E94"/>
                         <outlet property="pan" destination="Dvn-kV-4bv" id="1do-8b-rHg"/>
