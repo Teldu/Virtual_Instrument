@@ -100,6 +100,7 @@ var delayStatus: Bool = false
 var eqStatus: Bool = false
 var noteNum = 0
 var oct = 2
+var inst = 0
 
 var midiClient: MIDIClientRef = 0
 var inPort:MIDIPortRef = 0
@@ -283,13 +284,18 @@ class ViewController: NSViewController {
         DelayButton.state = .off
         EQButton.state = .off
         
-        //InstrumentMenu.addItem(withTitle: "Sawtooth Wave")
-        //InstrumentMenu.addItem(withTitle: "Square Wave")
-        //InstrumentMenu.addItem(withTitle: "Triangle Wave")
         ReverbMenu.addItem(withTitle: "Large")
         OctaveSelect.addItem(withTitle: "3")
-        OctaveSelect.addItem(withTitle: "4")
         OctaveSelect.selectItem(at: 2)
+        
+        InstrumentMenu.addItem(withTitle: "Piano")
+        InstrumentMenu.addItem(withTitle: "Strings")
+        InstrumentMenu.addItem(withTitle: "Horns")
+        InstrumentMenu.addItem(withTitle: "Synth 1")
+        InstrumentMenu.addItem(withTitle: "Synth 2")
+        InstrumentMenu.addItem(withTitle: "Pad 1")
+        InstrumentMenu.addItem(withTitle: "Pad 2")
+        
         
         EQF1T.title = String(format: "%.2f", EQFreq1.doubleValue)
         EQF2T.title = String(format: "%.2f", EQFreq2.doubleValue)
@@ -455,10 +461,18 @@ class ViewController: NSViewController {
         else if(OctaveSelect.selectedItem == OctaveSelect.item(withTitle: "3")){
             oct = 3
         }
-        else if(OctaveSelect.selectedItem == OctaveSelect.item(withTitle: "4")){
-            oct = 4
-        }
     }
+    
+    @IBAction func instrumentSelection(_ sender: Any) {
+        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){inst = 0}
+        else if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Strings")){inst = 1}
+        else if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Horns")){inst = 2}
+        else if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Synth 1")){inst = 3}
+        else if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Synth 2")){inst = 4}
+        else if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Pad 1")){inst = 5}
+        else if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Pad 2")){inst = 6}
+    }
+    
     
     //Volume/Pan Functions
     @IBAction func modVolume(_ sender: Any) {
@@ -488,159 +502,133 @@ class ViewController: NSViewController {
     //Play Notes
     @IBAction func playC(_ sender: Any) {
         noteNum = 0
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct])
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + (inst * 4)])
             operationQueue.addOperation{
                 self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
                 curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
                 curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
                 self.playFile(player: curPlayer[noteNum])
             }
-            
-        }
         
     }
     @IBAction func playCS(_ sender: Any) {
         noteNum = 1
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.Db[oct])
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.Db[oct + (inst * 4)])
             operationQueue.addOperation{
                 self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
                 curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
                 curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
                 self.playFile(player: curPlayer[noteNum])
             }
-        }
     }
     @IBAction func playD(_ sender: Any) {
         noteNum = 2
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.D[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.D[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playEF(_ sender: Any) {
         noteNum = 3
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Eb[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.Eb[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playE(_ sender: Any) {
         noteNum = 4
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.E[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.E[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playF(_ sender: Any) {
         noteNum = 5
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.F[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.F[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playFS(_ sender: Any) {
         noteNum = 6
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Gb[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.Gb[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playG(_ sender: Any) {
         noteNum = 7
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.G[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.G[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playGS(_ sender: Any) {
         noteNum = 8
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Ab[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.Ab[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playA(_ sender: Any) {
         noteNum = 9
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.A[oct])
-        operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
-            curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
-            curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
-        }        }
-    }
-    @IBAction func playAS(_ sender: Any) {
-        noteNum = 10
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Bb[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.A[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
         }
+    }
+    @IBAction func playAS(_ sender: Any) {
+        noteNum = 10
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.Bb[oct + (inst * 4)])
+        operationQueue.addOperation{
+            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
+            curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
+            self.playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playB(_ sender: Any) {
         noteNum = 11
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.B[oct])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.B[oct + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     @IBAction func playCH(_ sender: Any) {
         noteNum = 12
-        if(InstrumentMenu.selectedItem == InstrumentMenu.item(withTitle: "Piano")){
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1])
+        curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1 + (inst * 4)])
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
             self.playFile(player: curPlayer[noteNum])
-        }
         }
     }
     
