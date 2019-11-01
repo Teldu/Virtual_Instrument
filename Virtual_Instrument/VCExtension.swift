@@ -91,6 +91,20 @@ extension ViewController{
         player.playerNode.pause()
     }
     
+    func loop(player : playerStruct, outLocation: String){
+        do{
+            try player.engine.start()
+            player.playerNode.play()
+            let url = URL(fileURLWithPath: outLocation)
+            let file = try AVAudioFile(forReading: url)
+            let audioFileBuffer = AVAudioPCMBuffer(pcmFormat: file.fileFormat, frameCapacity: AVAudioFrameCount(file.length))
+            player.playerNode.scheduleBuffer(audioFileBuffer!, at: nil, options:.loops, completionHandler: nil)
+        }catch{
+            print("Failed to start engine: \(error.localizedDescription)")
+        }
+
+    }
+    
     func eqSetup(player: playerStruct, freq1: Float, freq2: Float, freq3: Float, bw1: Float, bw2: Float, bw3: Float, g1: Float, g2: Float, g3: Float){
         player.eqNode.bands[0].frequency = freq1
         player.eqNode.bands[1].frequency = freq2

@@ -11,166 +11,6 @@ import AVFoundation
 import AudioToolbox
 import CoreMIDI
 
-struct playerStruct{
-    var engine: AVAudioEngine = AVAudioEngine()
-    var playerNode: AVAudioPlayerNode = AVAudioPlayerNode()
-    var mixerNode: AVAudioMixerNode = AVAudioMixerNode()
-    var delayNode = AVAudioUnitDelay()
-    var reverbNode = AVAudioUnitReverb()
-    var eqNode = AVAudioUnitEQ(numberOfBands: 3)
-    
-    init(engine: AVAudioEngine, playerNode: AVAudioPlayerNode, mixerNode: AVAudioMixerNode,
-         reverbNode: AVAudioUnitReverb, delayNode: AVAudioUnitDelay, eqNode: AVAudioUnitEQ){
-        self.engine = engine
-        self.playerNode = playerNode
-        self.reverbNode = reverbNode
-        self.eqNode = eqNode
-    }
-}
-
-struct outputStruct{
-    var engine: AVAudioEngine = AVAudioEngine()
-    var mixerNode: AVAudioMixerNode = AVAudioMixerNode()
-    var playerNode: AVAudioPlayerNode = AVAudioPlayerNode()
-    
-    init(engine: AVAudioEngine, playerNode: AVAudioPlayerNode, mixerNode: AVAudioMixerNode){
-        self.playerNode = playerNode
-        self.engine = engine
-    }
-}
-
-
-//Test Versions of VCExtension Functions
-func playFiles(player: outputStruct){
-    do{
-        try player.engine.start()
-        print("Engine started")
-        player.playerNode.play()
-        print("File played")
-    }catch{
-        print("Failed to start engine: \(error.localizedDescription)")
-    }
-}
-
-func setUpPlaybacks(fn: String) -> outputStruct{
-    let playerInstance = outputStruct(engine: AVAudioEngine(), playerNode: AVAudioPlayerNode(), mixerNode: AVAudioMixerNode())
-    
-    //Attach the nodes
-    playerInstance.engine.attach(playerInstance.playerNode)
-    playerInstance.engine.attach(playerInstance.mixerNode)
-    
-    //Connect the nodes
-    playerInstance.engine.connect(playerInstance.playerNode, to: playerInstance.mixerNode, format: nil)
-    playerInstance.engine.connect(playerInstance.mixerNode, to: playerInstance.engine.mainMixerNode, format: nil)
-    
-    //Prepare the engine
-    playerInstance.engine.prepare()
-    
-    
-    //schedule the file
-    do{
-        //local files
-        let url = URL(fileURLWithPath: fn)
-        let file = try AVAudioFile(forReading: url)
-        playerInstance.playerNode.scheduleFile(file, at: nil, completionHandler: nil)
-        print("Audio file scheduled")
-        
-    }catch{
-        print("Failed to create file: \(error.localizedDescription)")
-    }
-    
-    return playerInstance
-    
-    
-}
-
-let mainEngine: AVAudioEngine = AVAudioEngine()
-let mainPlayer: AVAudioPlayerNode = AVAudioPlayerNode()
-let mainEQ: AVAudioUnitEQ = AVAudioUnitEQ()
-let mainVerb: AVAudioUnitReverb = AVAudioUnitReverb()
-let mainDelay: AVAudioUnitDelay = AVAudioUnitDelay()
-let mainMixer: AVAudioMixerNode = AVAudioMixerNode()
-var midiVal = 0
-
-private let operationQueue: OperationQueue = OperationQueue()
-
-var myVar = vari()
-var reverbStatus: Bool = false
-var delayStatus: Bool = false
-var eqStatus: Bool = false
-var noteNum = 0
-var oct = 2
-var inst = 0
-
-var midiClient: MIDIClientRef = 0
-var inPort:MIDIPortRef = 0
-var src:MIDIEndpointRef = MIDIGetSource(0)
-
-var outputFile: AVAudioFile? = nil
-
-let ae: AVAudioEngine = AVAudioEngine()
-let player: AVAudioPlayerNode = AVAudioPlayerNode()
-let mixer: AVAudioMixerNode = AVAudioMixerNode()
-var buffer:AVAudioPCMBuffer?
-
-let testEngine: AVAudioEngine = AVAudioEngine()
-let testP: AVAudioPlayerNode = AVAudioPlayerNode()
-let testMix: AVAudioMixerNode = AVAudioMixerNode()
-let testVerb: AVAudioUnitReverb = AVAudioUnitReverb()
-let testDelay: AVAudioUnitDelay = AVAudioUnitDelay()
-let testEQ: AVAudioUnitEQ = AVAudioUnitEQ()
-
-var curPlayer = [playerStruct]()
-var curPlayer2 = playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ)
-var testPlayer = outputStruct(engine: testEngine, playerNode: testP, mixerNode: testMix)
-
-func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
-                    readProcRefCon: UnsafeMutableRawPointer?, srcConnRefCon: UnsafeMutableRawPointer?) -> Void
-{
-    let packetList:MIDIPacketList = pktList.pointee
-    let srcRef:MIDIEndpointRef = srcConnRefCon!.load(as: MIDIEndpointRef.self)
-    
-    // print("MIDI Received From Source: \(getDisplayName(srcRef))")
-    
-    var packet:MIDIPacket = packetList.packet
-    for _ in 1...packetList.numPackets
-    {
-        let bytes = Mirror(reflecting: packet.data).children
-        var dumpStr = ""
-        
-        // bytes mirror contains all the zero values in the ridiulous packet data tuple
-        // so use the packet length to iterate.
-        // data2 data1 status
-        var i = packet.length
-        for (_, attr) in bytes.enumerated()
-        {
-            //: Look for the middle message in the packet and transpose it by 7 (P5)
-            //: the packets seem to be read from back to front and numbered 1-3
-            if (i == 2) {
-                print(attr.value as! UInt8 + 7)
-            } else if (i == 1) {
-                print(attr.value as! UInt8 / 2)
-            } else {
-                print(attr.value as! UInt8)
-                midiVal = Int(attr.value as! UInt8)
-                testPlayer = setUpPlaybacks (fn: myVar.C[oct])
-                playFiles(player: testPlayer)
-            }
-            // print(i)
-            dumpStr += String(format:"$%02X ", attr.value as! UInt8)
-            i -= 1
-            if (i <= 0)
-            {
-                break
-            }
-        }
-        
-        // print(dumpStr)
-        packet = MIDIPacketNext(&packet).pointee
-    }
-}
-
-
 class ViewController: NSViewController {
     
     let recordingEngine = AVAudioEngine()
@@ -498,11 +338,20 @@ class ViewController: NSViewController {
         playFile(player: curPlayer2)
     }
     
+    @IBAction func loopRec(_ sender: Any) {
+        curPlayer2 = setUpPlayback(fn: myVar.outLocation)
+        loop(player: curPlayer2, outLocation: myVar.outLocation)
+    }
     
     //Play Notes
     @IBAction func playC(_ sender: Any) {
         noteNum = 0
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct])
+        }
+        else{
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + (inst * 4) + inst])
+        }
             operationQueue.addOperation{
                 self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
                 curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -623,7 +472,12 @@ class ViewController: NSViewController {
     }
     @IBAction func playCH(_ sender: Any) {
         noteNum = 12
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1 + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1])
+        }
+        else{
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1 + (inst * 4) + inst])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
