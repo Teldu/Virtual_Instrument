@@ -6,6 +6,3 @@ All files need to be in a folder called Virtual_Instrument (when downloaded it w
 
 If these requirements are fulfilled, you should be able to run it with play button at top left
 (Build and run current scheme)
-
-Other notes/Known Issues:
-- EQ/Effects checkboxes not functioning
