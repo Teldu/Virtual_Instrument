@@ -13,6 +13,7 @@ import CoreMIDI
 
 class ViewController: NSViewController {
     
+    
     let recordingEngine = AVAudioEngine()
     
     @IBOutlet weak var EQFreq1: NSSliderCell!
@@ -349,8 +350,18 @@ class ViewController: NSViewController {
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct])
         }
-        else{
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + (inst * 4) + inst])
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad2[oct])
         }
             operationQueue.addOperation{
                 self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
@@ -362,8 +373,23 @@ class ViewController: NSViewController {
     }
     @IBAction func playCS(_ sender: Any) {
         noteNum = 1
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.Db[oct + (inst * 4)])
-            operationQueue.addOperation{
+            if(inst == 0){
+                curPlayer[noteNum] = setUpPlayback (fn: myVar.CS[oct])
+            }
+            else if(inst == 1){
+                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSStrings[oct])
+            }else if(inst == 2){
+                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSHorns[oct])
+            }else if(inst == 3){
+                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSSynth1[oct])
+            }else if(inst == 4){
+                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSSynth2[oct])
+            }else if(inst == 5){
+                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSPad1[oct])
+            }else if(inst == 6){
+                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSPad2[oct])
+            }
+        operationQueue.addOperation{
                 self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
                 curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
                 curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
@@ -372,7 +398,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playD(_ sender: Any) {
         noteNum = 2
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.D[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.D[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -382,7 +423,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playEF(_ sender: Any) {
         noteNum = 3
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Eb[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DS[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -392,7 +448,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playE(_ sender: Any) {
         noteNum = 4
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.E[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.E[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.EStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.EHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ESynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ESynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.EPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.EPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -402,7 +473,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playF(_ sender: Any) {
         noteNum = 5
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.F[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.F[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -412,7 +498,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playFS(_ sender: Any) {
         noteNum = 6
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Gb[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FS[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -422,7 +523,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playG(_ sender: Any) {
         noteNum = 7
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.G[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.G[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -432,7 +548,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playGS(_ sender: Any) {
         noteNum = 8
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Ab[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GS[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -442,7 +573,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playA(_ sender: Any) {
         noteNum = 9
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.A[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.A[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.AStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.AHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.APad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.APad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -452,7 +598,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playAS(_ sender: Any) {
         noteNum = 10
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.Bb[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.AS[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -462,7 +623,22 @@ class ViewController: NSViewController {
     }
     @IBAction func playB(_ sender: Any) {
         noteNum = 11
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.B[oct + (inst * 4)])
+        if(inst == 0){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.B[oct])
+        }
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.BStrings[oct])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.BHorns[oct])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.BSynth1[oct])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.BSynth2[oct])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.BPad1[oct])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.BPad2[oct])
+        }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
@@ -475,8 +651,18 @@ class ViewController: NSViewController {
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1])
         }
-        else{
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1 + (inst * 4) + inst])
+        else if(inst == 1){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CStrings[oct + 1])
+        }else if(inst == 2){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CHorns[oct + 1])
+        }else if(inst == 3){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth1[oct + 1])
+        }else if(inst == 4){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth2[oct + 1])
+        }else if(inst == 5){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad1[oct + 1])
+        }else if(inst == 6){
+            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad2[oct + 1])
         }
         operationQueue.addOperation{
             self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
