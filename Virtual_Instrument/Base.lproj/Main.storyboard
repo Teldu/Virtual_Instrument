@@ -1487,17 +1487,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J9W-32-YWK">
-                                <rect key="frame" x="345" y="174" width="47" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="J9W-32-YWK" secondAttribute="height" multiplier="43:16" id="SEZ-Xg-3cc"/>
-                                </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Reverb" id="ru2-yO-ZIq">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZWS-YP-FXq" userLabel="ReverbRatioText">
                                 <rect key="frame" x="373" y="125" width="68" height="22"/>
                                 <constraints>
@@ -1507,6 +1496,17 @@
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="kQk-AZ-x8L"/>
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J9W-32-YWK">
+                                <rect key="frame" x="371" y="174" width="47" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="J9W-32-YWK" secondAttribute="height" multiplier="43:16" id="SEZ-Xg-3cc"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Reverb" id="ru2-yO-ZIq">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
