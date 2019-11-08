@@ -11,6 +11,7 @@ import AVFoundation
 import AudioToolbox
 import CoreMIDI
 
+
 class ViewController: NSViewController {
     
     
@@ -49,7 +50,6 @@ class ViewController: NSViewController {
     @IBOutlet weak var VerbText: NSTextFieldCell!
     
     @IBOutlet weak var InstrumentMenu: NSPopUpButton!
-    @IBOutlet weak var ReverbMenu: NSPopUpButtonCell!
     @IBOutlet weak var OctaveSelect: NSPopUpButtonCell!
     
     @IBOutlet weak var volume: NSSliderCell!
@@ -116,7 +116,6 @@ class ViewController: NSViewController {
         ReverbRatio.minValue = 0
         ReverbRatio.maxValue = 100
         
-        ReverbMenu.addItem(withTitle: "Large")
         OctaveSelect.addItem(withTitle: "3")
         OctaveSelect.selectItem(at: 2)
         
@@ -216,69 +215,23 @@ class ViewController: NSViewController {
     
     
     //Delay Functions
-    @IBAction func DelayPushed(_ sender: Any) {
-        if(delayStatus == true){
-            delayStatus = false
-            for n in 0...12{
-                curPlayer[noteNum].delayNode.bypass = true
-                curPlayer[noteNum].delayNode.delayTime = 0.0
-            }
-        }
-        else{
-            delayStatus = true
-            curPlayer[noteNum].delayNode.bypass = false
-            curPlayer[noteNum].delayNode.delayTime = TimeInterval(DelayTime.floatValue)
-        }
-    }
     @IBAction func DelayTimeSlide(_ sender: Any) {
         DTText.title = String(format: "%.2f", DelayTime.doubleValue)
-        if(delayStatus == true){
             curPlayer[noteNum].delayNode.delayTime = TimeInterval(DelayTime.floatValue)
-        }
-        else{
-            curPlayer[noteNum].delayNode.delayTime = 0.0
-        }
     }
     @IBAction func DelayRatioSlide(_ sender: Any) {
         DRText.title = String(format: "%.2f", DelayRatio.doubleValue)
-        if(delayStatus == true){
             curPlayer[noteNum].delayNode.wetDryMix = DelayRatio.floatValue
-        }
-        else{
-            curPlayer[noteNum].delayNode.wetDryMix = 0.0
-        }
     }
     @IBAction func DelayFBSlide(_ sender: Any) {
         DFBT.title = String(format: "%.2f", DelayFeedback.doubleValue)
-        if(delayStatus == true){
             curPlayer[noteNum].delayNode.feedback = DelayFeedback.floatValue
-        }
-        else{
-            curPlayer[noteNum].delayNode.feedback = 0.0
-        }
     }
     
     //Reverb Functions
-    @IBAction func ReverbPushed(_ sender: Any) {
-        if(reverbStatus == true){
-            reverbStatus = false
-            curPlayer[noteNum].reverbNode.bypass = true
-            curPlayer[noteNum].reverbNode.wetDryMix = 0.0
-        }
-        else{
-            reverbStatus = true
-            curPlayer[noteNum].reverbNode.bypass = false
-            curPlayer[noteNum].reverbNode.wetDryMix = ReverbRatio.floatValue
-        }
-    }
     @IBAction func ReverbRatioSlider(_ sender: Any) {
         VerbText.title = String(format: "%.2f", ReverbRatio.doubleValue)
-        if(reverbStatus == true){
             curPlayer[noteNum].reverbNode.wetDryMix = ReverbRatio.floatValue
-        }
-        else{
-            curPlayer[noteNum].reverbNode.wetDryMix = 0.0
-        }
     }
 
     @IBAction func octaveSelection(_ sender: Any) {
