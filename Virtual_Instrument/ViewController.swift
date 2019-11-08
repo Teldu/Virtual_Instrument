@@ -48,10 +48,6 @@ class ViewController: NSViewController {
     @IBOutlet weak var ReverbRatio: NSSliderCell!
     @IBOutlet weak var VerbText: NSTextFieldCell!
     
-    @IBOutlet weak var EQButton: NSButtonCell!
-    @IBOutlet weak var DelayButton: NSButtonCell!
-    @IBOutlet weak var ReverbButton: NSButtonCell!
-    
     @IBOutlet weak var InstrumentMenu: NSPopUpButton!
     @IBOutlet weak var ReverbMenu: NSPopUpButtonCell!
     @IBOutlet weak var OctaveSelect: NSPopUpButtonCell!
@@ -119,11 +115,6 @@ class ViewController: NSViewController {
         ReverbRatio.isContinuous = true
         ReverbRatio.minValue = 0
         ReverbRatio.maxValue = 100
-        
-        //Defaults for checkboxes & text boxes
-        ReverbButton.state = .off
-        DelayButton.state = .off
-        EQButton.state = .off
         
         ReverbMenu.addItem(withTitle: "Large")
         OctaveSelect.addItem(withTitle: "3")
