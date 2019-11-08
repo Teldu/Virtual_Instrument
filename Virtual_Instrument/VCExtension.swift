@@ -174,7 +174,7 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
         // print("MIDI Received From Source: \(getDisplayName(srcRef))")
         
         var packet:MIDIPacket = packetList.packet
-        operationQueue.addOperation {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
             for _ in 1...packetList.numPackets
                {
                    let bytes = Mirror(reflecting: packet.data).children
@@ -208,28 +208,183 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    if(midiVal%12 == 0 && (midiVal/12)-2 < 5){
                        midiVal/=12
                        noteNum = 0
-                       if(midiVal-2 >= 0){
+                       if(midiVal-3 >= 0){
                            if(inst == 0){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.C[midiVal-2])
+                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.F[midiVal-3])
                            }
                            else if(inst == 1){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CStrings[midiVal-2])
+                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FStrings[midiVal-3])
                            }else if(inst == 2){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CHorns[midiVal-2])
+                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FHorns[midiVal-3])
                            }else if(inst == 3){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSynth1[midiVal-2])
+                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSynth1[midiVal-3])
                            }else if(inst == 4){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSynth2[midiVal-2])
+                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSynth2[midiVal-3])
                            }else if(inst == 5){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CPad1[midiVal-2])
+                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FPad1[midiVal-3])
                            }else if(inst == 6){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CPad2[midiVal-2])
+                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FPad2[midiVal-3])
                            }
                        }
                    }
                    else if(midiVal%12 == 1 && (midiVal/12)-2 < 5){
                        midiVal/=12
                        noteNum = 1
+                           if(midiVal-3 >= 0){
+                               if(inst == 0){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FS[midiVal-3])
+                               }
+                               else if(inst == 1){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSStrings[midiVal-3])
+                               }else if(inst == 2){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSHorns[midiVal-3])
+                               }else if(inst == 3){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSSynth1[midiVal-3])
+                               }else if(inst == 4){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSSynth2[midiVal-3])
+                               }else if(inst == 5){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSPad1[midiVal-3])
+                               }else if(inst == 6){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSPad2[midiVal-3])
+                               }
+                           }
+                       
+                   }
+                   else if(midiVal%12 == 2 && (midiVal/12)-2 < 5){
+                       midiVal/=12
+                       noteNum = 2
+                           if(midiVal-3 >= 0){
+                               if(inst == 0){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.G[midiVal-3])
+                               }
+                               else if(inst == 1){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GStrings[midiVal-3])
+                               }else if(inst == 2){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GHorns[midiVal-3])
+                               }else if(inst == 3){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSynth1[midiVal-3])
+                               }else if(inst == 4){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSynth2[midiVal-3])
+                               }else if(inst == 5){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GPad1[midiVal-3])
+                               }else if(inst == 6){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GPad2[midiVal-3])
+                               }
+                           }
+                   }
+                   else if(midiVal%12 == 3 && (midiVal/12)-2 < 5){
+                       midiVal/=12
+                       noteNum = 3
+                            if(midiVal-3 >= 0){
+                               if(inst == 0){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GS[midiVal-3])
+                               }
+                               else if(inst == 1){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSStrings[midiVal-3])
+                               }else if(inst == 2){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSHorns[midiVal-3])
+                               }else if(inst == 3){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSSynth1[midiVal-3])
+                               }else if(inst == 4){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSSynth2[midiVal-3])
+                               }else if(inst == 5){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSPad1[midiVal-3])
+                               }else if(inst == 6){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSPad2[midiVal-3])
+                               }
+                           }
+                   }
+                   else if(midiVal%12 == 4 && (midiVal/12)-2 < 5){
+                       midiVal/=12
+                       noteNum = 4
+                           if(midiVal-3 >= 0){
+                               if(inst == 0){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.A[midiVal-3])
+                               }
+                               else if(inst == 1){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AStrings[midiVal-3])
+                               }else if(inst == 2){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AHorns[midiVal-3])
+                               }else if(inst == 3){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASynth1[midiVal-3])
+                               }else if(inst == 4){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASynth2[midiVal-3])
+                               }else if(inst == 5){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.APad1[midiVal-3])
+                               }else if(inst == 6){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.APad2[midiVal-3])
+                               }
+                           }
+                   }
+                   else if(midiVal%12 == 5 && (midiVal/12)-2 < 5){
+                       midiVal/=12
+                       noteNum = 5
+                           if(midiVal-3 >= 0){
+                               if(inst == 0){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AS[midiVal-3])
+                               }
+                               else if(inst == 1){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASStrings[midiVal-3])
+                               }else if(inst == 2){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASHorns[midiVal-3])
+                               }else if(inst == 3){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASSynth1[midiVal-3])
+                               }else if(inst == 4){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASSynth2[midiVal-3])
+                               }else if(inst == 5){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASPad1[midiVal-3])
+                               }else if(inst == 6){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASPad2[midiVal-3])
+                               }
+                           }
+                   }
+                   else if(midiVal%12 == 6 && (midiVal/12)-2 < 5){
+                       midiVal/=12
+                       noteNum = 6
+                           if(midiVal-3 >= 0){
+                               if(inst == 0){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.B[midiVal-3])
+                               }
+                               else if(inst == 1){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BStrings[midiVal-3])
+                               }else if(inst == 2){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BHorns[midiVal-3])
+                               }else if(inst == 3){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BSynth1[midiVal-3])
+                               }else if(inst == 4){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BSynth2[midiVal-3])
+                               }else if(inst == 5){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BPad1[midiVal-3])
+                               }else if(inst == 6){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BPad2[midiVal-3])
+                               }
+                           }
+                   }
+                   else if(midiVal%12 == 7 && (midiVal/12)-2 < 5){
+                       midiVal/=12
+                       noteNum = 7
+                           if(midiVal-2 >= 0){
+                               if(inst == 0){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.C[midiVal-2])
+                               }
+                               else if(inst == 1){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CStrings[midiVal-2])
+                               }else if(inst == 2){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CHorns[midiVal-2])
+                               }else if(inst == 3){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSynth1[midiVal-2])
+                               }else if(inst == 4){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSynth2[midiVal-2])
+                               }else if(inst == 5){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CPad1[midiVal-2])
+                               }else if(inst == 6){
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CPad2[midiVal-2])
+                               }
+                           }
+                   }
+                   else if(midiVal%12 == 8 && (midiVal/12)-2 < 5){
+                       midiVal/=12
+                       noteNum = 8
                            if(midiVal-2 >= 0){
                                if(inst == 0){
                                    testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CS[midiVal-2])
@@ -248,14 +403,13 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                                    testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSPad2[midiVal-2])
                                }
                            }
-                       
                    }
-                   else if(midiVal%12 == 2 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 9 && (midiVal/12)-2 < 5){
                        midiVal/=12
-                       noteNum = 2
+                       noteNum = 9
                            if(midiVal-2 >= 0){
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DS[midiVal-2])
+                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.D[midiVal-2])
                                }
                                else if(inst == 1){
                                    testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DStrings[midiVal-2])
@@ -272,10 +426,10 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                                }
                            }
                    }
-                   else if(midiVal%12 == 3 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 10 && (midiVal/12)-2 < 5){
                        midiVal/=12
-                       noteNum = 3
-                            if(midiVal-2 >= 0){
+                       noteNum = 10
+                           if(midiVal-2 >= 0){
                                if(inst == 0){
                                    testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DS[midiVal-2])
                                }
@@ -294,15 +448,15 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                                }
                            }
                    }
-                   else if(midiVal%12 == 4 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 11 && (midiVal/12)-2 < 5){
                        midiVal/=12
-                       noteNum = 4
+                       noteNum = 11
                            if(midiVal-2 >= 0){
                                if(inst == 0){
                                    testPlayer[noteNum] = setUpPlaybacks (fn: myVar.E[midiVal-2])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.EStrings[midiVal-2])
+                                testPlayer[noteNum] = setUpPlaybacks (fn: myVar.EStrings[midiVal-2])
                                }else if(inst == 2){
                                    testPlayer[noteNum] = setUpPlaybacks (fn: myVar.EHorns[midiVal-2])
                                }else if(inst == 3){
@@ -316,169 +470,15 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                                }
                            }
                    }
-                   else if(midiVal%12 == 5 && (midiVal/12)-2 < 5){
-                       midiVal/=12
-                       noteNum = 5
-                           if(midiVal-2 >= 0){
-                               if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.F[midiVal-2])
-                               }
-                               else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FStrings[midiVal-2])
-                               }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FHorns[midiVal-2])
-                               }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSynth1[midiVal-2])
-                               }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSynth2[midiVal-2])
-                               }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FPad1[midiVal-2])
-                               }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FPad2[midiVal-2])
-                               }
-                           }
-                   }
-                   else if(midiVal%12 == 6 && (midiVal/12)-2 < 5){
-                       midiVal/=12
-                       noteNum = 6
-                           if(midiVal-2 >= 0){
-                               if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FS[midiVal-2])
-                               }
-                               else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSStrings[midiVal-2])
-                               }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSHorns[midiVal-2])
-                               }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSSynth1[midiVal-2])
-                               }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSSynth2[midiVal-2])
-                               }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSPad1[midiVal-2])
-                               }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSPad2[midiVal-2])
-                               }
-                           }
-                   }
-                   else if(midiVal%12 == 7 && (midiVal/12)-2 < 5){
-                       midiVal/=12
-                       noteNum = 7
-                           if(midiVal-2 >= 0){
-                               if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.G[midiVal-2])
-                               }
-                               else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GStrings[midiVal-2])
-                               }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GHorns[midiVal-2])
-                               }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSynth1[midiVal-2])
-                               }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSynth2[midiVal-2])
-                               }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GPad1[midiVal-2])
-                               }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GPad2[midiVal-2])
-                               }
-                           }
-                   }
-                   else if(midiVal%12 == 8 && (midiVal/12)-2 < 5){
-                       midiVal/=12
-                       noteNum = 8
-                           if(midiVal-2 >= 0){
-                               if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GS[midiVal-2])
-                               }
-                               else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSStrings[midiVal-2])
-                               }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSHorns[midiVal-2])
-                               }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSSynth1[midiVal-2])
-                               }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSSynth2[midiVal-2])
-                               }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSPad1[midiVal-2])
-                               }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSPad2[midiVal-2])
-                               }
-                           }
-                   }
-                   else if(midiVal%12 == 9 && (midiVal/12)-2 < 5){
-                       midiVal/=12
-                       noteNum = 9
-                           if(midiVal-2 >= 0){
-                               if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.A[midiVal-2])
-                               }
-                               else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AStrings[midiVal-2])
-                               }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AHorns[midiVal-2])
-                               }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASynth1[midiVal-2])
-                               }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASynth2[midiVal-2])
-                               }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.APad1[midiVal-2])
-                               }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.APad2[midiVal-2])
-                               }
-                           }
-                   }
-                   else if(midiVal%12 == 10 && (midiVal/12)-2 < 5){
-                       midiVal/=12
-                       noteNum = 10
-                           if(midiVal-2 >= 0){
-                               if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AS[midiVal-2])
-                               }
-                               else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASStrings[midiVal-2])
-                               }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASHorns[midiVal-2])
-                               }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASSynth1[midiVal-2])
-                               }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASSynth2[midiVal-2])
-                               }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASPad1[midiVal-2])
-                               }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASPad2[midiVal-2])
-                               }
-                           }
-                   }
-                   else if(midiVal%12 == 11 && (midiVal/12)-2 < 5){
-                       midiVal/=12
-                       noteNum = 11
-                           if(midiVal-2 >= 0){
-                               if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.B[midiVal-2])
-                               }
-                               else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BStrings[midiVal-2])
-                               }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BHorns[midiVal-2])
-                               }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BSynth1[midiVal-2])
-                               }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BSynth2[midiVal-2])
-                               }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BPad1[midiVal-2])
-                               }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BPad2[midiVal-2])
-                               }
-                           }
-                   }
                    if(midiVal-2>=0){
-                       playFiles(player: testPlayer[noteNum])
+                    playFiles(player: testPlayer[noteNum])
                    }
             }
-            
             
             // print(dumpStr)
             packet = MIDIPacketNext(&packet).pointee
         }
+        
     }
     
 }
