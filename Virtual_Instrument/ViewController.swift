@@ -166,6 +166,7 @@ class ViewController: NSViewController {
         for n in 0...12 {
             curPlayer.append(playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ))
         }
+        testPlayerSetup()
         curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct])
         
         MIDIClientCreate("MidiTestClient" as CFString, nil, nil, &midiClient)
