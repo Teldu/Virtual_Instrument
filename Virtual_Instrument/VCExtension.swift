@@ -13,108 +13,6 @@ import AudioToolbox
 
 extension ViewController{
     
-    func setUpPlayback(fn: String) -> playerStruct{
-        let playerInstance = playerStruct(engine: AVAudioEngine(), playerNode: AVAudioPlayerNode(), mixerNode: AVAudioMixerNode(), reverbNode: AVAudioUnitReverb(), delayNode: AVAudioUnitDelay(), eqNode: AVAudioUnitEQ())
-        
-        //Attach the nodes
-        playerInstance.engine.attach(playerInstance.playerNode)
-        playerInstance.engine.attach(playerInstance.mixerNode)
-        playerInstance.engine.attach(playerInstance.delayNode)
-        playerInstance.engine.attach(playerInstance.reverbNode)
-        playerInstance.engine.attach(playerInstance.eqNode)
-        
-        //Connect the nodes
-        playerInstance.engine.connect(playerInstance.playerNode, to: playerInstance.eqNode, format: nil)
-        playerInstance.engine.connect(playerInstance.eqNode, to: playerInstance.delayNode, format: nil)
-        playerInstance.engine.connect(playerInstance.delayNode, to: playerInstance.reverbNode, format: nil)
-        playerInstance.engine.connect(playerInstance.reverbNode, to: playerInstance.mixerNode, format: nil)
-        playerInstance.engine.connect(playerInstance.mixerNode, to: playerInstance.engine.mainMixerNode, format: nil)
-        
-        //Set mixer volume to default
-        //playerInstance.mixerNode.outputVolume = horizontalSlider.floatValue
-        
-        //Set delay and reverb parameters
-        playerInstance.delayNode.delayTime = TimeInterval(DelayTime.floatValue)
-        playerInstance.delayNode.feedback = DelayFeedback.floatValue
-        playerInstance.delayNode.wetDryMix = DelayRatio.floatValue
-        playerInstance.reverbNode.wetDryMix = ReverbRatio.floatValue
-        
-        //Reverb Type Setup
-        playerInstance.reverbNode.loadFactoryPreset(AVAudioUnitReverbPreset.mediumRoom)
-        
-        playerInstance.eqNode.bands[0].bypass = false
-        playerInstance.eqNode.bands[1].bypass = false
-        playerInstance.eqNode.bands[2].bypass = false
-        
-        //Prepare the engine
-        playerInstance.engine.prepare()
-        
-        
-        //schedule the file
-        do{
-            //local files
-            let url = URL(fileURLWithPath: fn)
-            let file = try AVAudioFile(forReading: url)
-            playerInstance.playerNode.scheduleFile(file, at: nil, completionHandler: nil)
-            print("Audio file scheduled")
-            
-        }catch{
-            print("Failed to create file: \(error.localizedDescription)")
-        }
-        
-        return playerInstance
-        
-        
-    }
-    func playFile(player: playerStruct){
-        do{
-            try player.engine.start()
-            print("Engine started")
-            player.playerNode.play()
-            print("File played")
-        }catch{
-            print("Failed to start engine: \(error.localizedDescription)")
-        }
-    }
-    func stopPlayback(player: playerStruct){
-        player.playerNode.stop()
-    }
-    func pausePlayback(player: playerStruct){
-        player.playerNode.pause()
-    }
-    
-    func loop(player : playerStruct, outLocation: String){
-        do{
-            try player.engine.start()
-            player.playerNode.play()
-            let url = URL(fileURLWithPath: outLocation)
-            let file = try AVAudioFile(forReading: url)
-            let audioFileBuffer = AVAudioPCMBuffer(pcmFormat: file.fileFormat, frameCapacity: AVAudioFrameCount(file.length))
-            player.playerNode.scheduleBuffer(audioFileBuffer!, at: nil, options:.loops, completionHandler: nil)
-        }catch{
-            print("Failed to start engine: \(error.localizedDescription)")
-        }
-
-    }
-    
-    func eqSetup(player: playerStruct, freq1: Float, freq2: Float, freq3: Float, bw1: Float, bw2: Float, bw3: Float, g1: Float, g2: Float, g3: Float){
-        player.eqNode.bands[0].frequency = freq1
-        player.eqNode.bands[1].frequency = freq2
-        player.eqNode.bands[2].frequency = freq3
-        
-        player.eqNode.bands[0].bandwidth = bw1
-        player.eqNode.bands[1].bandwidth = bw2
-        player.eqNode.bands[2].bandwidth = bw3
-        
-        player.eqNode.bands[0].gain = g1
-        player.eqNode.bands[1].gain = g2
-        player.eqNode.bands[2].gain = g3
-        
-        player.eqNode.bands[0].bypass = false
-        player.eqNode.bands[1].bypass = false
-        player.eqNode.bands[2].bypass = false
-    }
-    
     func getDisplayName(_ obj: MIDIObjectRef) -> String
     {
         var param: Unmanaged<CFString>?
@@ -130,44 +28,11 @@ extension ViewController{
     }
 
     
-    func startRecording(output: AVAudioEngine) {
-        //recordingEngine.attach(output.mainMixerNode)
-        //recordingEngine.connect(output.mainMixerNode, to: recordingEngine.inputNode, format: nil)
-        let bus = 0
-        let inputFormat = curPlayer2.engine.mainMixerNode.outputFormat(forBus: bus)
-                
-        let urlstring = NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/out.wav"
-        let outputURL = NSURL(string: urlstring)
-        print("writing to \(String(describing: outputURL))")
-
-        outputFile = try! AVAudioFile(forWriting: outputURL as! URL, settings: inputFormat.settings, commonFormat: inputFormat.commonFormat, interleaved: inputFormat.isInterleaved)
-        
-        curPlayer2.engine.mainMixerNode.installTap(onBus: bus, bufferSize: 512, format: inputFormat) { (buffer, time) in
-            try! outputFile?.write(from: buffer)
-        }
-
-        try! curPlayer2.engine.start()
-    }
-    
-    func stopRecording() {
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            curPlayer2.engine.stop()
-            curPlayer2.engine.mainMixerNode.removeTap(onBus: 0)
-            print("Recording Finished")
-            outputFile = nil
-        }
-    }
-    
 }
 
 func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                     readProcRefCon: UnsafeMutableRawPointer?, srcConnRefCon: UnsafeMutableRawPointer?) -> Void
 {
-    if(doubleTap == true){
-        doubleTap = false
-    }
-    else{doubleTap = true}
-    if(doubleTap == true){
         let packetList:MIDIPacketList = pktList.pointee
         let srcRef:MIDIEndpointRef = srcConnRefCon!.load(as: MIDIEndpointRef.self)
         
@@ -175,6 +40,24 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
         
         var packet:MIDIPacket = packetList.packet
         DispatchQueue.main.asyncAfter(deadline: .now()) {
+            if(doubleTracker >= 12){
+                doubleTracker = 0
+                doubleTap.removeAll()
+                for n in 0...12{
+                    doubleTap.append(false)
+                }
+            }
+            if(curPlayerTracker >= 63){
+                curPlayerTracker = 0
+                curPlayerArray.removeAll()
+                curPlayer.removeAll()
+                for n in 0...12 {
+                    curPlayer.append(playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ))
+                }
+                for n in 0...64{
+                    curPlayerArray.append(curPlayer)
+                }
+            }
             for _ in 1...packetList.numPackets
                {
                    let bytes = Mirror(reflecting: packet.data).children
@@ -205,280 +88,307 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                        }
                    }
 
-                   if(midiVal%12 == 0 && (midiVal/12)-2 < 5){
+                   if(midiVal%12 == 0 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
                        noteNum = 0
-                       if(midiVal-3 >= 0){
+                       if(midiVal-3 >= 0 && midiVal-3 <= 4){
+                        midiVal2 = midiVal-3
                            if(inst == 0){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.F[midiVal-3])
+                            curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.F[midiVal-3])
                            }
                            else if(inst == 1){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FStrings[midiVal-3])
+                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FStrings[midiVal-3])
                            }else if(inst == 2){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FHorns[midiVal-3])
+                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FHorns[midiVal-3])
                            }else if(inst == 3){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSynth1[midiVal-3])
+                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSynth1[midiVal-3])
                            }else if(inst == 4){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSynth2[midiVal-3])
+                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSynth2[midiVal-3])
                            }else if(inst == 5){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FPad1[midiVal-3])
+                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FPad1[midiVal-3])
                            }else if(inst == 6){
-                               testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FPad2[midiVal-3])
+                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FPad2[midiVal-3])
                            }
                        }
                    }
-                   else if(midiVal%12 == 1 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 1 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
                        noteNum = 1
-                           if(midiVal-3 >= 0){
+                           if(midiVal-3 >= 0 && midiVal-3 <= 4){
+                            midiVal2 = midiVal-3
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FS[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FS[midiVal-3])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSStrings[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSStrings[midiVal-3])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSHorns[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSHorns[midiVal-3])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSSynth1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSSynth2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSPad1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSPad1[midiVal-3])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.FSPad2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSPad2[midiVal-3])
                                }
                            }
                        
                    }
-                   else if(midiVal%12 == 2 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 2 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
                        noteNum = 2
-                           if(midiVal-3 >= 0){
+                           if(midiVal-3 >= 0 && midiVal-3 <= 4){
+                            midiVal2 = midiVal-3
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.G[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.G[midiVal-3])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GStrings[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GStrings[midiVal-3])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GHorns[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GHorns[midiVal-3])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSynth1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSynth2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GPad1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GPad1[midiVal-3])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GPad2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GPad2[midiVal-3])
                                }
                            }
                    }
-                   else if(midiVal%12 == 3 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 3 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
                        noteNum = 3
-                            if(midiVal-3 >= 0){
+                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
+                            midiVal2 = midiVal-3
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GS[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GS[midiVal-3])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSStrings[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSStrings[midiVal-3])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSHorns[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSHorns[midiVal-3])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSSynth1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSSynth2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSPad1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSPad1[midiVal-3])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.GSPad2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSPad2[midiVal-3])
                                }
                            }
                    }
-                   else if(midiVal%12 == 4 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 4 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
                        noteNum = 4
-                           if(midiVal-3 >= 0){
+                           if(midiVal-3 >= 0 && midiVal-3 <= 4){
+                            midiVal2 = midiVal-3
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.A[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.A[midiVal-3])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AStrings[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AStrings[midiVal-3])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AHorns[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AHorns[midiVal-3])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASynth1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASynth1[midiVal-3])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASynth2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASynth2[midiVal-3])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.APad1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.APad1[midiVal-3])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.APad2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.APad2[midiVal-3])
                                }
                            }
                    }
-                   else if(midiVal%12 == 5 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 5 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
                        noteNum = 5
-                           if(midiVal-3 >= 0){
+                           if(midiVal-3 >= 0 && midiVal-3 <= 4){
+                            midiVal2 = midiVal-3
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.AS[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AS[midiVal-3])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASStrings[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASStrings[midiVal-3])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASHorns[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASHorns[midiVal-3])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASSynth1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASSynth2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASPad1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASPad1[midiVal-3])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ASPad2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASPad2[midiVal-3])
                                }
                            }
                    }
-                   else if(midiVal%12 == 6 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 6 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
                        noteNum = 6
-                           if(midiVal-3 >= 0){
+                           if(midiVal-3 >= 0 && midiVal-3 <= 4){
+                            midiVal2 = midiVal-3
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.B[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.B[midiVal-3])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BStrings[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BStrings[midiVal-3])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BHorns[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BHorns[midiVal-3])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BSynth1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BSynth2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BPad1[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BPad1[midiVal-3])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.BPad2[midiVal-3])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BPad2[midiVal-3])
                                }
                            }
                    }
-                   else if(midiVal%12 == 7 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 7 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
                        noteNum = 7
-                           if(midiVal-2 >= 0){
+                           if(midiVal-2 >= 0 && midiVal-2 <= 4){
+                            midiVal2 = midiVal-2
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.C[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.C[midiVal-2])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CStrings[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CStrings[midiVal-2])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CHorns[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CHorns[midiVal-2])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSynth1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSynth2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CPad1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CPad1[midiVal-2])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CPad2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CPad2[midiVal-2])
                                }
                            }
                    }
-                   else if(midiVal%12 == 8 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 8 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
                        noteNum = 8
-                           if(midiVal-2 >= 0){
+                           if(midiVal-2 >= 0 && midiVal-2 <= 4){
+                            midiVal2 = midiVal-2
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CS[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CS[midiVal-2])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSStrings[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSStrings[midiVal-2])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSHorns[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSHorns[midiVal-2])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSSynth1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSSynth2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSPad1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSPad1[midiVal-2])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.CSPad2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSPad2[midiVal-2])
                                }
                            }
                    }
-                   else if(midiVal%12 == 9 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 9 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
                        noteNum = 9
-                           if(midiVal-2 >= 0){
+                           if(midiVal-2 >= 0 && midiVal-2 <= 4){
+                            midiVal2 = midiVal-2
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.D[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.D[midiVal-2])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DStrings[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DStrings[midiVal-2])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DHorns[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DHorns[midiVal-2])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSynth1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSynth2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DPad1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DPad1[midiVal-2])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DPad2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DPad2[midiVal-2])
                                }
                            }
                    }
-                   else if(midiVal%12 == 10 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 10 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
                        noteNum = 10
-                           if(midiVal-2 >= 0){
+                           if(midiVal-2 >= 0 && midiVal-2 <= 4){
+                            midiVal2 = midiVal-2
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DS[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DS[midiVal-2])
                                }
                                else if(inst == 1){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSStrings[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSStrings[midiVal-2])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSHorns[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSHorns[midiVal-2])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSSynth1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSSynth2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSPad1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSPad1[midiVal-2])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.DSPad2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSPad2[midiVal-2])
                                }
                            }
                    }
-                   else if(midiVal%12 == 11 && (midiVal/12)-2 < 5){
+                   else if(midiVal%12 == 11 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
                        noteNum = 11
-                           if(midiVal-2 >= 0){
+                           if(midiVal-2 >= 0 && midiVal-2 <= 4){
+                            midiVal2 = midiVal-2
                                if(inst == 0){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.E[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.E[midiVal-2])
                                }
                                else if(inst == 1){
-                                testPlayer[noteNum] = setUpPlaybacks (fn: myVar.EStrings[midiVal-2])
+                                curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EStrings[midiVal-2])
                                }else if(inst == 2){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.EHorns[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EHorns[midiVal-2])
                                }else if(inst == 3){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ESynth1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ESynth1[midiVal-2])
                                }else if(inst == 4){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.ESynth2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ESynth2[midiVal-2])
                                }else if(inst == 5){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.EPad1[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EPad1[midiVal-2])
                                }else if(inst == 6){
-                                   testPlayer[noteNum] = setUpPlaybacks (fn: myVar.EPad2[midiVal-2])
+                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EPad2[midiVal-2])
                                }
                            }
                    }
-                   if(midiVal-2>=0){
-                    playFiles(player: testPlayer[noteNum])
+                   if(midiVal2 >= 0 && midiVal2 <= 4){
+                    if(isRecording == true){
+                        startRecording(eng: curPlayerArray[curPlayerTracker][noteNum].engine)
+                        setTemp(eng: curPlayerArray[curPlayerTracker][noteNum].engine)
+                    }
+                    curPlayerArray[curPlayerTracker][noteNum].mixerNode.outputVolume = vol
+                    curPlayerArray[curPlayerTracker][noteNum].mixerNode.pan = LR * -1.0
+                    eqSetup(player: curPlayerArray[curPlayerTracker][noteNum], freq1: f1, freq2: f2, freq3: f3, bw1: bw1, bw2: bw2, bw3: bw3, g1: g1, g2: g2, g3: g3)
+                    if(doubleTap[noteNum] == true){
+                        doubleTap[noteNum] = false
+                    }
+                    else{doubleTap[noteNum] = true}
+                    if(doubleTap[noteNum] == true){
+                    playFile(player: curPlayerArray[curPlayerTracker][noteNum])
+                    }
                    }
+                   else{
+                    print("Out of bounds")
+                }
+                curPlayerTracker += 1
+                doubleTracker += 1
             }
             
             // print(dumpStr)
             packet = MIDIPacketNext(&packet).pointee
         }
-        
-    }
-    
 }

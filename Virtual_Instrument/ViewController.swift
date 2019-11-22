@@ -14,7 +14,6 @@ import CoreMIDI
 
 class ViewController: NSViewController {
     
-    
     let recordingEngine = AVAudioEngine()
     
     @IBOutlet weak var EQFreq1: NSSliderCell!
@@ -52,6 +51,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var InstrumentMenu: NSPopUpButton!
     @IBOutlet weak var OctaveSelect: NSPopUpButtonCell!
     
+    
+
     @IBOutlet weak var volume: NSSliderCell!
     @IBOutlet weak var pan: NSSliderCell!
     
@@ -156,13 +157,21 @@ class ViewController: NSViewController {
         for n in 0...12 {
             curPlayer.append(playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ))
         }
-        testPlayerSetup()
-        curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct])
-        
+        for n in 0...64{
+            curPlayerArray.append(curPlayer)
+        }
+        for n in 0...12{
+            doubleTap.append(false)
+        }
+
+        curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.C[oct])
+
+    
         MIDIClientCreate("MidiTestClient" as CFString, nil, nil, &midiClient)
         MIDIInputPortCreate(midiClient, "MidiTest_InPort" as CFString, MyMIDIReadProc, nil, &inPort)
         MIDIPortConnectSource(inPort, src, &src)
         
+
     }
     
 
@@ -177,24 +186,33 @@ class ViewController: NSViewController {
     @IBAction func EQFreq1Slide(_ sender: Any) {
         EQF1T.title = String(format: "%.2f", EQFreq1.doubleValue)
         curPlayer[noteNum].eqNode.bands[0].frequency = EQFreq1.floatValue
+        f1 = EQFreq1.floatValue
     }
+    
     @IBAction func EQFreq2Slide(_ sender: Any) {
         EQF2T.title = String(format: "%.2f", EQFreq2.doubleValue)
         curPlayer[noteNum].eqNode.bands[1].frequency = EQFreq2.floatValue
+        f2 = EQFreq2.floatValue
     }
+    
     @IBAction func EQFreq3Slide(_ sender: Any) {
         EQF3T.title = String(format: "%.2f", EQFreq3.doubleValue)
-        curPlayer[noteNum].eqNode.bands[2].frequency = EQFreq3.floatValue
+               curPlayer[noteNum].eqNode.bands[2].frequency = EQFreq3.floatValue
+        f3 = EQFreq3.floatValue
     }
     
     @IBAction func EQGain1Slide(_ sender: Any) {
         EQG1T.title = String(format: "%.2f", EQGain1.doubleValue)
         curPlayer[noteNum].eqNode.bands[0].gain = EQGain1.floatValue
+        g1 = EQGain1.floatValue
     }
+    
     @IBAction func EQGain2Slide(_ sender: Any) {
         EQG2T.title = String(format: "%.2f", EQGain2.doubleValue)
         curPlayer[noteNum].eqNode.bands[1].gain = EQGain2.floatValue
+        g2 = EQGain2.floatValue
     }
+    
     @IBAction func EQGain3Slide(_ sender: Any) {
         EQG3T.title = String(format: "%.2f", EQGain3.doubleValue)
         curPlayer[noteNum].eqNode.bands[2].gain = EQGain3.floatValue
@@ -203,35 +221,43 @@ class ViewController: NSViewController {
     @IBAction func EQBand1Slide(_ sender: Any) {
         EQBW1T.title = String(format: "%.2f", EQBand1.doubleValue)
         curPlayer[noteNum].eqNode.bands[0].bandwidth = EQBand1.floatValue
+        bw1 = EQBand1.floatValue
     }
+    
     @IBAction func EQBand2Slide(_ sender: Any) {
         EQBW2T.title = String(format: "%.2f", EQBand2.doubleValue)
         curPlayer[noteNum].eqNode.bands[1].bandwidth = EQBand2.floatValue
+        bw2 = EQBand2.floatValue
     }
+    
     @IBAction func EQBand3Slide(_ sender: Any) {
         EQBW3T.title = String(format: "%.2f", EQBand3.doubleValue)
         curPlayer[noteNum].eqNode.bands[2].bandwidth = EQBand3.floatValue
+        bw3 = EQBand3.floatValue
     }
     
     
     //Delay Functions
+
     @IBAction func DelayTimeSlide(_ sender: Any) {
         DTText.title = String(format: "%.2f", DelayTime.doubleValue)
-            curPlayer[noteNum].delayNode.delayTime = TimeInterval(DelayTime.floatValue)
+            delTime = DelayTime.floatValue
     }
     @IBAction func DelayRatioSlide(_ sender: Any) {
         DRText.title = String(format: "%.2f", DelayRatio.doubleValue)
-            curPlayer[noteNum].delayNode.wetDryMix = DelayRatio.floatValue
+            delRatio = DelayRatio.floatValue
     }
+    
     @IBAction func DelayFBSlide(_ sender: Any) {
         DFBT.title = String(format: "%.2f", DelayFeedback.doubleValue)
-            curPlayer[noteNum].delayNode.feedback = DelayFeedback.floatValue
+        delFB = DelayFeedback.floatValue
     }
+    
     
     //Reverb Functions
     @IBAction func ReverbRatioSlider(_ sender: Any) {
         VerbText.title = String(format: "%.2f", ReverbRatio.doubleValue)
-            curPlayer[noteNum].reverbNode.wetDryMix = ReverbRatio.floatValue
+            reverbRatio = ReverbRatio.floatValue
     }
 
     @IBAction func octaveSelection(_ sender: Any) {
@@ -263,357 +289,411 @@ class ViewController: NSViewController {
     //Volume/Pan Functions
     @IBAction func modVolume(_ sender: Any) {
         curPlayer[noteNum].mixerNode.outputVolume = volume.floatValue
+        vol = volume.floatValue
     }
+    
     @IBAction func modPan(_ sender: Any) {
         curPlayer[noteNum].mixerNode.pan = pan.floatValue * -1.0
+        print(pan.floatValue)
+        LR = pan.floatValue
     }
     
     
     @IBAction func recStart(_ sender: Any) {
-        curPlayer2 = setUpPlayback (fn: myVar.C[oct])
-        startRecording(output: mainEngine)
-        playFile(player: curPlayer2)
-        
+        print("Recording Started")
+        isRecording = true
     }
     @IBAction func recStop(_ sender: Any) {
-        stopRecording()
+        print("Recording Stopped")
+        isRecording = false
+        for n in 0...12{
+            stopRecording(eng: curPlayer[n].engine)
+        }
     }
     
     @IBAction func playBack(_ sender: Any) {
-        curPlayer2 = setUpPlayback(fn: myVar.outLocation)
-        playFile(player: curPlayer2)
+        curPlayerRec = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.outLocation)
+        playFile(player: curPlayerRec)
     }
     
-    @IBAction func loopRec(_ sender: Any) {
-        curPlayer2 = setUpPlayback(fn: myVar.outLocation)
-        loop(player: curPlayer2, outLocation: myVar.outLocation)
-    }
     
     //Play Notes
     @IBAction func playC(_ sender: Any) {
         noteNum = 0
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue, fn: myVar.C[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CPad2[oct])
         }
             operationQueue.addOperation{
-                self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+                eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
                 curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
                 curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-                self.playFile(player: curPlayer[noteNum])
+                if(isRecording == true){
+                    startRecording(eng: curPlayer[noteNum].engine)
+                    setTemp(eng: curPlayer[noteNum].engine)
+                }
+                playFile(player: curPlayer[noteNum])
             }
         
     }
     @IBAction func playCS(_ sender: Any) {
         noteNum = 1
             if(inst == 0){
-                curPlayer[noteNum] = setUpPlayback (fn: myVar.CS[oct])
+                curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CS[oct])
             }
             else if(inst == 1){
-                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSStrings[oct])
+                curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSStrings[oct])
             }else if(inst == 2){
-                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSHorns[oct])
+                curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSHorns[oct])
             }else if(inst == 3){
-                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSSynth1[oct])
+                curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSSynth1[oct])
             }else if(inst == 4){
-                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSSynth2[oct])
+                curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSSynth2[oct])
             }else if(inst == 5){
-                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSPad1[oct])
+                curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSPad1[oct])
             }else if(inst == 6){
-                curPlayer[noteNum] = setUpPlayback (fn: myVar.CSPad2[oct])
+                curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSPad2[oct])
             }
         operationQueue.addOperation{
-                self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+                eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
                 curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
                 curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-                self.playFile(player: curPlayer[noteNum])
+                if(isRecording == true){
+                    startRecording(eng: curPlayer[noteNum].engine)
+                    setTemp(eng: curPlayer[noteNum].engine)
+                }
+                playFile(player: curPlayer[noteNum])
             }
     }
     @IBAction func playD(_ sender: Any) {
         noteNum = 2
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.D[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.D[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playEF(_ sender: Any) {
         noteNum = 3
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DS[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DS[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.DSPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DSPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playE(_ sender: Any) {
         noteNum = 4
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.E[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.E[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.EStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.EStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.EHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.EHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ESynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ESynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ESynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ESynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.EPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.EPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.EPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.EPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playF(_ sender: Any) {
         noteNum = 5
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.F[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.F[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playFS(_ sender: Any) {
         noteNum = 6
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FS[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FS[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.FSPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FSPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playG(_ sender: Any) {
         noteNum = 7
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.G[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.G[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playGS(_ sender: Any) {
         noteNum = 8
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GS[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GS[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.GSPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GSPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playA(_ sender: Any) {
         noteNum = 9
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.A[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.A[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.AStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.AStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.AHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.AHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.APad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.APad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.APad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.APad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playAS(_ sender: Any) {
         noteNum = 10
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.AS[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.AS[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.ASPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.ASPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playB(_ sender: Any) {
         noteNum = 11
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.B[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.B[oct])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.BStrings[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.BStrings[oct])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.BHorns[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.BHorns[oct])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.BSynth1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.BSynth1[oct])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.BSynth2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.BSynth2[oct])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.BPad1[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.BPad1[oct])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.BPad2[oct])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.BPad2[oct])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     @IBAction func playCH(_ sender: Any) {
         noteNum = 12
         if(inst == 0){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.C[oct + 1])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.C[oct + 1])
         }
         else if(inst == 1){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CStrings[oct + 1])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CStrings[oct + 1])
         }else if(inst == 2){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CHorns[oct + 1])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CHorns[oct + 1])
         }else if(inst == 3){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth1[oct + 1])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSynth1[oct + 1])
         }else if(inst == 4){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CSynth2[oct + 1])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CSynth2[oct + 1])
         }else if(inst == 5){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad1[oct + 1])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CPad1[oct + 1])
         }else if(inst == 6){
-            curPlayer[noteNum] = setUpPlayback (fn: myVar.CPad2[oct + 1])
+            curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CPad2[oct + 1])
         }
         operationQueue.addOperation{
-            self.eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
+            eqSetup(player: curPlayer[noteNum], freq1: self.EQFreq1.floatValue, freq2: self.EQFreq2.floatValue, freq3: self.EQFreq3.floatValue, bw1: self.EQBand1.floatValue, bw2: self.EQBand2.floatValue, bw3: self.EQBand3.floatValue, g1: self.EQGain1.floatValue, g2: self.EQGain2.floatValue, g3: self.EQGain3.floatValue)
             curPlayer[noteNum].mixerNode.outputVolume = self.volume.floatValue
             curPlayer[noteNum].mixerNode.pan = self.pan.floatValue * -1.0
-            self.playFile(player: curPlayer[noteNum])
+            if(isRecording == true){
+                startRecording(eng: curPlayer[noteNum].engine)
+                setTemp(eng: curPlayer[noteNum].engine)
+            }
+            playFile(player: curPlayer[noteNum])
         }
     }
     

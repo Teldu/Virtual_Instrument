@@ -25,7 +25,7 @@ class vari{
     let asArray:[Float] = [58.27, 116.54, 233.08, 466.16, 932.33] //34, 46, 58, 70, 82, 94
     let bArray:[Float] = [61.47, 123.47, 246.94, 493.88, 987.77] //35, 47, 59, 71, 83, 95
     
-    let C = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C3.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C4.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C5.wav"]
+    let C = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C3.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C4.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C5.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/Silence.wav"]
     
     let CStrings = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C1 - Strings.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C2 - Strings.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C3 - Strings.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C4 - Strings.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C5 - Strings.wav"]
     
@@ -203,6 +203,5 @@ class vari{
 
     
     
-    let outLocation = NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/out.wav"
-    
+    let outLocation = NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/out.wav"    
 }
