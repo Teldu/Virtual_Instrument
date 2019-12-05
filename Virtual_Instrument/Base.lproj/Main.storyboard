@@ -1452,19 +1452,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rbn-Ay-GEb">
-                                <rect key="frame" x="529" y="-1" width="71" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Rbn-Ay-GEb" secondAttribute="height" multiplier="59:21" id="vlj-HO-8MG"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Loop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dZZ-AP-WbV">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="loopRec:" target="XfG-lQ-9wD" id="dAz-me-OsV"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OJm-PA-CAg">
                                 <rect key="frame" x="245" y="352" width="35" height="17"/>
                                 <constraints>
