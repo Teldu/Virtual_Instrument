@@ -17,7 +17,7 @@
 		146B44A322E8F97600D06405 /* Virtual_InstrumentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146B44A222E8F97600D06405 /* Virtual_InstrumentUITests.swift */; };
 		14911F3823174706009EF5A2 /* MIKMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14911F33231746F5009EF5A2 /* MIKMIDI.framework */; };
 		14911F3923174706009EF5A2 /* MIKMIDI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14911F33231746F5009EF5A2 /* MIKMIDI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		14911F3F231747EE009EF5A2 /* MIDI.m in Sources */ = {isa = PBXBuildFile; fileRef = 14911F3E231747EE009EF5A2 /* MIDI.m */; };
+		14E26AAE2398DD8F004D164C /* PreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E26AAB2398DD8F004D164C /* PreViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,7 +97,7 @@
 		146B44A422E8F97600D06405 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14911F2C231746F5009EF5A2 /* MIKMIDI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MIKMIDI.xcodeproj; path = "MIKMIDI-master/Framework/MIKMIDI.xcodeproj"; sourceTree = "<group>"; };
 		14911F3D23174781009EF5A2 /* Virtual_Instrument-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Virtual_Instrument-Bridging-Header.h"; sourceTree = "<group>"; };
-		14911F3E231747EE009EF5A2 /* MIDI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MIDI.m; sourceTree = "<group>"; };
+		14E26AAB2398DD8F004D164C /* PreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,8 +158,8 @@
 				146B448422E8F97400D06405 /* AppDelegate.swift */,
 				1421C7D92307C36000809654 /* Variables.swift */,
 				1421C7DB2307C4E000809654 /* VCExtension.swift */,
+				14E26AAB2398DD8F004D164C /* PreViewController.swift */,
 				14911F3D23174781009EF5A2 /* Virtual_Instrument-Bridging-Header.h */,
-				14911F3E231747EE009EF5A2 /* MIDI.m */,
 			);
 			path = Virtual_Instrument;
 			sourceTree = "<group>";
@@ -360,10 +360,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14911F3F231747EE009EF5A2 /* MIDI.m in Sources */,
 				1421C7DA2307C36000809654 /* Variables.swift in Sources */,
 				146B448722E8F97400D06405 /* ViewController.swift in Sources */,
 				1421C7DC2307C4E000809654 /* VCExtension.swift in Sources */,
+				14E26AAE2398DD8F004D164C /* PreViewController.swift in Sources */,
 				146B448522E8F97400D06405 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
