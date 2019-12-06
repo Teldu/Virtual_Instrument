@@ -200,8 +200,6 @@ class vari{
     let BPad1 = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B1 - Pad1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B2 - Pad1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B3 - Pad1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B4 - Pad1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B5 - Pad1.wav",]
 
     let BPad2 = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B1 - Pad2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B2 - Pad2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B3 - Pad2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B4 - Pad2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/B5 - Pad2.wav"]
-
     
-    
-    let outLocation = NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/out.wav"    
+    let outLocation = NSHomeDirectory() + "/Desktop/Out.m4a"
 }

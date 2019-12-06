@@ -43,7 +43,7 @@ var myVar = vari()
 var noteNum = 0
 var oct = 2
 var inst = 0
-var doubleTap = [false]
+var doubleTap = true
 var counter = 0
 
 var midiClient: MIDIClientRef = 0
@@ -82,10 +82,11 @@ var g1: Float = 0.0
 var g2: Float = 0.0
 var g3: Float = 0.0
 
+
+var urlString = [String]()
+var urlArray = [NSURL]()
+var outNum = 0
 var curPlayer = [playerStruct]()
-var curPlayerArray = [curPlayer]
-var curPlayerTracker = 0
-var doubleTracker = 0
 var curPlayerRec = playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ)
 
 
@@ -184,27 +185,89 @@ func setTemp(eng: AVAudioEngine){
 }
 
 func startRecording(eng: AVAudioEngine) {
+    
     tempEngine.mainMixerNode.removeTap(onBus: 0)
+    
     let bus = 0
     let inputFormat = eng.mainMixerNode.outputFormat(forBus: bus)
     
-    let urlstring = NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/out.wav"
-    let outputURL = NSURL(string: urlstring)
+    urlString.append(NSHomeDirectory() + "/Desktop/Virtual_Instrument/Recordings/Temporary/out" + String(outNum) + ".wav")
+    let outputURL = NSURL(string: urlString[outNum])
     //print("writing to \(String(describing: outputURL))")
 
+    outNum+=1
+    
     outputFile = try! AVAudioFile(forWriting: outputURL as! URL, settings: inputFormat.settings, commonFormat: inputFormat.commonFormat, interleaved: inputFormat.isInterleaved)
     
-    eng.mainMixerNode.installTap(onBus: bus, bufferSize: 512, format: inputFormat) { (buffer, time) in
+    eng.mainMixerNode.installTap(onBus: bus, bufferSize: 8192, format: inputFormat) { (buffer, time) in
         try! outputFile?.write(from: buffer)
     }
 
     try! eng.start()
 }
-
+let CTemp = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C3.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C4.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C5.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/Silence.wav"]
 func stopRecording(eng: AVAudioEngine) {
     DispatchQueue.main.asyncAfter(deadline: .now()) {
         eng.stop()
         eng.mainMixerNode.removeTap(onBus: 0)
         outputFile = nil
     }
+
+}
+
+func mergeAfterStop(){
+    outNum-=1
+    
+    for n in 0...outNum{
+        urlArray.append(NSURL(fileURLWithPath: urlString[n]))
+    }
+    mergeAudioFiles(audioFileUrls: urlArray as NSArray)
+
+    urlString.removeAll()
+    urlArray.removeAll()
+    outNum = 0
+}
+
+var mergeAudioURL = NSURL()
+
+func mergeAudioFiles(audioFileUrls: NSArray) {
+    let composition = AVMutableComposition()
+
+    for i in 0 ..< audioFileUrls.count {
+
+        let compositionAudioTrack :AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: CMPersistentTrackID())!
+
+        let asset = AVURLAsset(url: (audioFileUrls[i] as! NSURL) as URL)
+
+        let track = asset.tracks(withMediaType: AVMediaType.audio)[0]
+
+        let timeRange = CMTimeRange(start: CMTimeMake(value: 0, timescale: 600), duration: track.timeRange.duration)
+
+        try! compositionAudioTrack.insertTimeRange(timeRange, of: track, at: composition.duration)
+    }
+
+    let documentDirectoryURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first! as NSURL
+    mergeAudioURL = documentDirectoryURL.appendingPathComponent("Out.m4a")! as URL as NSURL
+
+    let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A)
+    assetExport?.outputFileType = AVFileType.m4a
+    assetExport?.outputURL = mergeAudioURL as URL
+    assetExport?.exportAsynchronously(completionHandler:
+        {
+            switch assetExport!.status
+            {
+            case AVAssetExportSessionStatus.failed:
+                print("failed \(String(describing: assetExport?.error))")
+            case AVAssetExportSessionStatus.cancelled:
+                print("cancelled \(String(describing: assetExport?.error))")
+            case AVAssetExportSessionStatus.unknown:
+                print("unknown\(String(describing: assetExport?.error))")
+            case AVAssetExportSessionStatus.waiting:
+                print("waiting\(String(describing: assetExport?.error))")
+            case AVAssetExportSessionStatus.exporting:
+                print("exporting\(String(describing: assetExport?.error))")
+            default:
+                print("Audio Concatenation Complete")
+            }
+    })
 }

@@ -35,29 +35,18 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
 {
         let packetList:MIDIPacketList = pktList.pointee
         let srcRef:MIDIEndpointRef = srcConnRefCon!.load(as: MIDIEndpointRef.self)
-        
+            
+    if(doubleTap == false){
+        doubleTap = true
+    }
+    else if(doubleTap == true){
+        doubleTap = false
+    }
+    
         // print("MIDI Received From Source: \(getDisplayName(srcRef))")
         
+    if(doubleTap == false){
         var packet:MIDIPacket = packetList.packet
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            if(doubleTracker >= 12){
-                doubleTracker = 0
-                doubleTap.removeAll()
-                for n in 0...12{
-                    doubleTap.append(false)
-                }
-            }
-            if(curPlayerTracker >= 63){
-                curPlayerTracker = 0
-                curPlayerArray.removeAll()
-                curPlayer.removeAll()
-                for n in 0...12 {
-                    curPlayer.append(playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ))
-                }
-                for n in 0...64{
-                    curPlayerArray.append(curPlayer)
-                }
-            }
             for _ in 1...packetList.numPackets
                {
                    let bytes = Mirror(reflecting: packet.data).children
@@ -94,20 +83,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                        if(midiVal-3 >= 0 && midiVal-3 <= 4){
                         midiVal2 = midiVal-3
                            if(inst == 0){
-                            curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.F[midiVal-3])
+                            curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.F[midiVal-3])
                            }
                            else if(inst == 1){
-                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FStrings[midiVal-3])
+                               curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FStrings[midiVal-3])
                            }else if(inst == 2){
-                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FHorns[midiVal-3])
+                               curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FHorns[midiVal-3])
                            }else if(inst == 3){
-                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSynth1[midiVal-3])
+                               curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSynth1[midiVal-3])
                            }else if(inst == 4){
-                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSynth2[midiVal-3])
+                               curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSynth2[midiVal-3])
                            }else if(inst == 5){
-                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FPad1[midiVal-3])
+                               curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FPad1[midiVal-3])
                            }else if(inst == 6){
-                               curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FPad2[midiVal-3])
+                               curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FPad2[midiVal-3])
                            }
                        }
                    }
@@ -117,20 +106,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FS[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FS[midiVal-3])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSStrings[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSStrings[midiVal-3])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSHorns[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSHorns[midiVal-3])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSSynth1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSSynth2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSPad1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSPad1[midiVal-3])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSPad2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.FSPad2[midiVal-3])
                                }
                            }
                        
@@ -141,20 +130,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.G[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.G[midiVal-3])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GStrings[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GStrings[midiVal-3])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GHorns[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GHorns[midiVal-3])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSynth1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSynth2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GPad1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GPad1[midiVal-3])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GPad2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GPad2[midiVal-3])
                                }
                            }
                    }
@@ -164,20 +153,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                             if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GS[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GS[midiVal-3])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSStrings[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSStrings[midiVal-3])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSHorns[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSHorns[midiVal-3])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSSynth1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSSynth2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSPad1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSPad1[midiVal-3])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSPad2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.GSPad2[midiVal-3])
                                }
                            }
                    }
@@ -187,20 +176,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.A[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.A[midiVal-3])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AStrings[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AStrings[midiVal-3])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AHorns[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AHorns[midiVal-3])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASynth1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASynth1[midiVal-3])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASynth2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASynth2[midiVal-3])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.APad1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.APad1[midiVal-3])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.APad2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.APad2[midiVal-3])
                                }
                            }
                    }
@@ -210,20 +199,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AS[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.AS[midiVal-3])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASStrings[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASStrings[midiVal-3])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASHorns[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASHorns[midiVal-3])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASSynth1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASSynth2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASPad1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASPad1[midiVal-3])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASPad2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ASPad2[midiVal-3])
                                }
                            }
                    }
@@ -233,20 +222,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.B[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.B[midiVal-3])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BStrings[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BStrings[midiVal-3])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BHorns[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BHorns[midiVal-3])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BSynth1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BSynth1[midiVal-3])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BSynth2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BSynth2[midiVal-3])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BPad1[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BPad1[midiVal-3])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BPad2[midiVal-3])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.BPad2[midiVal-3])
                                }
                            }
                    }
@@ -256,20 +245,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.C[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.C[midiVal-2])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CStrings[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CStrings[midiVal-2])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CHorns[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CHorns[midiVal-2])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSynth1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSynth2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CPad1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CPad1[midiVal-2])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CPad2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CPad2[midiVal-2])
                                }
                            }
                    }
@@ -279,20 +268,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CS[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CS[midiVal-2])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSStrings[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSStrings[midiVal-2])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSHorns[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSHorns[midiVal-2])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSSynth1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSSynth2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSPad1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSPad1[midiVal-2])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSPad2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.CSPad2[midiVal-2])
                                }
                            }
                    }
@@ -302,20 +291,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.D[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.D[midiVal-2])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DStrings[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DStrings[midiVal-2])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DHorns[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DHorns[midiVal-2])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSynth1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSynth2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DPad1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DPad1[midiVal-2])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DPad2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DPad2[midiVal-2])
                                }
                            }
                    }
@@ -325,20 +314,20 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DS[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DS[midiVal-2])
                                }
                                else if(inst == 1){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSStrings[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSStrings[midiVal-2])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSHorns[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSHorns[midiVal-2])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSSynth1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSSynth1[midiVal-2])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSSynth2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSSynth2[midiVal-2])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSPad1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSPad1[midiVal-2])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSPad2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.DSPad2[midiVal-2])
                                }
                            }
                    }
@@ -348,44 +337,36 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.E[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.E[midiVal-2])
                                }
                                else if(inst == 1){
-                                curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EStrings[midiVal-2])
+                                curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EStrings[midiVal-2])
                                }else if(inst == 2){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EHorns[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EHorns[midiVal-2])
                                }else if(inst == 3){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ESynth1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ESynth1[midiVal-2])
                                }else if(inst == 4){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ESynth2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.ESynth2[midiVal-2])
                                }else if(inst == 5){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EPad1[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EPad1[midiVal-2])
                                }else if(inst == 6){
-                                   curPlayerArray[curPlayerTracker][noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EPad2[midiVal-2])
+                                   curPlayer[noteNum] = setUpPlayback (DT:delTime, FB: delFB, dWetDry: delRatio, rWetDry: reverbRatio,fn: myVar.EPad2[midiVal-2])
                                }
                            }
                    }
                    if(midiVal2 >= 0 && midiVal2 <= 4){
                     if(isRecording == true){
-                        startRecording(eng: curPlayerArray[curPlayerTracker][noteNum].engine)
-                        setTemp(eng: curPlayerArray[curPlayerTracker][noteNum].engine)
+                        startRecording(eng: curPlayer[noteNum].engine)
+                        setTemp(eng: curPlayer[noteNum].engine)
                     }
-                    curPlayerArray[curPlayerTracker][noteNum].mixerNode.outputVolume = vol
-                    curPlayerArray[curPlayerTracker][noteNum].mixerNode.pan = LR * -1.0
-                    eqSetup(player: curPlayerArray[curPlayerTracker][noteNum], freq1: f1, freq2: f2, freq3: f3, bw1: bw1, bw2: bw2, bw3: bw3, g1: g1, g2: g2, g3: g3)
-                    if(doubleTap[noteNum] == true){
-                        doubleTap[noteNum] = false
-                    }
-                    else{doubleTap[noteNum] = true}
-                    if(doubleTap[noteNum] == true){
-                    playFile(player: curPlayerArray[curPlayerTracker][noteNum])
-                    }
+                    curPlayer[noteNum].mixerNode.outputVolume = vol
+                    curPlayer[noteNum].mixerNode.pan = LR * -1.0
+                    eqSetup(player: curPlayer[noteNum], freq1: f1, freq2: f2, freq3: f3, bw1: bw1, bw2: bw2, bw3: bw3, g1: g1, g2: g2, g3: g3)
+                    playFile(player: curPlayer[noteNum])
                    }
                    else{
                     print("Out of bounds")
                 }
-                curPlayerTracker += 1
-                doubleTracker += 1
             }
             
             // print(dumpStr)

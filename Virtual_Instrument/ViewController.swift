@@ -157,12 +157,6 @@ class ViewController: NSViewController {
         for n in 0...12 {
             curPlayer.append(playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ))
         }
-        for n in 0...64{
-            curPlayerArray.append(curPlayer)
-        }
-        for n in 0...12{
-            doubleTap.append(false)
-        }
 
         curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.C[oct])
 
@@ -309,6 +303,9 @@ class ViewController: NSViewController {
         for n in 0...12{
             stopRecording(eng: curPlayer[n].engine)
         }
+    }
+    @IBAction func mergeTemps(_ sender: Any) {
+        mergeAfterStop()
     }
     
     @IBAction func playBack(_ sender: Any) {
