@@ -43,7 +43,12 @@ var myVar = vari()
 var noteNum = 0
 var oct = 2
 var inst = 0
+
+//checks if finger is pressing down or lifting off the key
 var doubleTap = true
+
+//checks if same note is being played twice in a row
+var doubleTap2 = [Bool]()
 var counter = 0
 
 var midiClient: MIDIClientRef = 0

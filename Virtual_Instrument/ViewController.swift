@@ -154,10 +154,13 @@ class ViewController: NSViewController {
         pan.floatValue = 0.0
         
         
-        for n in 0...12 {
+        for n in 0...24 {
             curPlayer.append(playerStruct(engine: mainEngine, playerNode: mainPlayer, mixerNode: mainMixer, reverbNode: mainVerb, delayNode: mainDelay, eqNode: mainEQ))
         }
-
+        for n in 0...12{
+            doubleTap2.append(false)
+        }
+        
         curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.C[oct])
 
     
@@ -316,7 +319,14 @@ class ViewController: NSViewController {
     
     //Play Notes
     @IBAction func playC(_ sender: Any) {
+        if(doubleTap2[0] == true){
+        doubleTap2[0] = false
         noteNum = 0
+        }
+        else{
+            doubleTap2[0] = true
+            noteNum = 1
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue, fn: myVar.C[oct])
         }
@@ -346,7 +356,14 @@ class ViewController: NSViewController {
         
     }
     @IBAction func playCS(_ sender: Any) {
-        noteNum = 1
+        if(doubleTap2[1] == true){
+        doubleTap2[1] = false
+        noteNum = 2
+        }
+        else{
+            doubleTap2[1] = true
+            noteNum = 3
+        }
             if(inst == 0){
                 curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.CS[oct])
             }
@@ -375,7 +392,14 @@ class ViewController: NSViewController {
             }
     }
     @IBAction func playD(_ sender: Any) {
-        noteNum = 2
+        if(doubleTap2[2] == true){
+        doubleTap2[2] = false
+        noteNum = 4
+        }
+        else{
+            doubleTap2[2] = true
+            noteNum = 5
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.D[oct])
         }
@@ -404,7 +428,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playEF(_ sender: Any) {
-        noteNum = 3
+        if(doubleTap2[3] == true){
+        doubleTap2[3] = false
+        noteNum = 6
+        }
+        else{
+            doubleTap2[3] = true
+            noteNum = 7
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.DS[oct])
         }
@@ -433,7 +464,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playE(_ sender: Any) {
-        noteNum = 4
+        if(doubleTap2[4] == true){
+        doubleTap2[4] = false
+        noteNum = 8
+        }
+        else{
+            doubleTap2[4] = true
+            noteNum = 9
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.E[oct])
         }
@@ -462,7 +500,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playF(_ sender: Any) {
-        noteNum = 5
+        if(doubleTap2[5] == true){
+        doubleTap2[5] = false
+        noteNum = 10
+        }
+        else{
+            doubleTap2[5] = true
+            noteNum = 11
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.F[oct])
         }
@@ -491,7 +536,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playFS(_ sender: Any) {
-        noteNum = 6
+        if(doubleTap2[6] == true){
+        doubleTap2[6] = false
+        noteNum = 12
+        }
+        else{
+            doubleTap2[6] = true
+            noteNum = 13
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.FS[oct])
         }
@@ -520,7 +572,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playG(_ sender: Any) {
-        noteNum = 7
+        if(doubleTap2[7] == true){
+        doubleTap2[7] = false
+        noteNum = 14
+        }
+        else{
+            doubleTap2[7] = true
+            noteNum = 15
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.G[oct])
         }
@@ -549,7 +608,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playGS(_ sender: Any) {
-        noteNum = 8
+        if(doubleTap2[8] == true){
+        doubleTap2[8] = false
+        noteNum = 16
+        }
+        else{
+            doubleTap2[8] = true
+            noteNum = 17
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.GS[oct])
         }
@@ -578,7 +644,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playA(_ sender: Any) {
-        noteNum = 9
+        if(doubleTap2[9] == true){
+        doubleTap2[9] = false
+        noteNum = 18
+        }
+        else{
+            doubleTap2[9] = true
+            noteNum = 19
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.A[oct])
         }
@@ -607,7 +680,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playAS(_ sender: Any) {
-        noteNum = 10
+        if(doubleTap2[10] == true){
+        doubleTap2[1] = false
+        noteNum = 20
+        }
+        else{
+            doubleTap2[1] = true
+            noteNum = 21
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.AS[oct])
         }
@@ -636,7 +716,14 @@ class ViewController: NSViewController {
         }
     }
     @IBAction func playB(_ sender: Any) {
-        noteNum = 11
+        if(doubleTap2[11] == true){
+        doubleTap2[11] = false
+        noteNum = 22
+        }
+        else{
+            doubleTap2[11] = true
+            noteNum = 23
+        }
         if(inst == 0){
             curPlayer[noteNum] = setUpPlayback (DT:DelayTime.floatValue, FB: DelayFeedback.floatValue, dWetDry: DelayRatio.floatValue, rWetDry: ReverbRatio.floatValue,fn: myVar.B[oct])
         }

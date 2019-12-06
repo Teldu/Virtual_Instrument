@@ -79,7 +79,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
 
                    if(midiVal%12 == 0 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
-                       noteNum = 0
+                    if(doubleTap2[0] == true){
+                        doubleTap2[0] = false
+                        noteNum = 0
+                    }
+                    else{
+                        doubleTap2[0] = true
+                        noteNum = 1
+                    }
                        if(midiVal-3 >= 0 && midiVal-3 <= 4){
                         midiVal2 = midiVal-3
                            if(inst == 0){
@@ -102,7 +109,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 1 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
-                       noteNum = 1
+                       if(doubleTap2[1] == true){
+                            doubleTap2[1] = false
+                            noteNum = 3
+                            }
+                            else{
+                                doubleTap2[1] = true
+                                noteNum = 4
+                            }
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
@@ -126,7 +140,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 2 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
-                       noteNum = 2
+                       if(doubleTap2[2] == true){
+                       doubleTap2[2] = false
+                       noteNum = 5
+                       }
+                       else{
+                           doubleTap2[2] = true
+                           noteNum = 6
+                       }
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
@@ -149,7 +170,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 3 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
-                       noteNum = 3
+                       if(doubleTap2[3] == true){
+                       doubleTap2[3] = false
+                       noteNum = 7
+                       }
+                       else{
+                           doubleTap2[3] = true
+                           noteNum = 8
+                       }
                             if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
@@ -172,7 +200,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 4 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
-                       noteNum = 4
+                       if(doubleTap2[4] == true){
+                       doubleTap2[4] = false
+                       noteNum = 9
+                       }
+                       else{
+                           doubleTap2[4] = true
+                           noteNum = 10
+                       }
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
@@ -195,7 +230,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 5 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
-                       noteNum = 5
+                       if(doubleTap2[5] == true){
+                       doubleTap2[5] = false
+                       noteNum = 11
+                       }
+                       else{
+                           doubleTap2[5] = true
+                           noteNum = 12
+                       }
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
@@ -218,7 +260,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 6 && (midiVal/12)-3 <= 4 && (midiVal/12)-3 >= 0){
                        midiVal/=12
-                       noteNum = 6
+                       if(doubleTap2[6] == true){
+                       doubleTap2[6] = false
+                       noteNum = 13
+                       }
+                       else{
+                           doubleTap2[6] = true
+                           noteNum = 14
+                       }
                            if(midiVal-3 >= 0 && midiVal-3 <= 4){
                             midiVal2 = midiVal-3
                                if(inst == 0){
@@ -241,7 +290,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 7 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
-                       noteNum = 7
+                       if(doubleTap2[7] == true){
+                       doubleTap2[7] = false
+                       noteNum = 15
+                       }
+                       else{
+                           doubleTap2[7] = true
+                           noteNum = 16
+                       }
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
@@ -264,7 +320,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 8 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
-                       noteNum = 8
+                       if(doubleTap2[8] == true){
+                       doubleTap2[8] = false
+                       noteNum = 17
+                       }
+                       else{
+                           doubleTap2[8] = true
+                           noteNum = 18
+                       }
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
@@ -287,7 +350,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 9 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
-                       noteNum = 9
+                       if(doubleTap2[9] == true){
+                       doubleTap2[0] = false
+                       noteNum = 19
+                       }
+                       else{
+                           doubleTap2[9] = true
+                           noteNum = 20
+                       }
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
@@ -310,7 +380,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 10 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
-                       noteNum = 10
+                       if(doubleTap2[10] == true){
+                       doubleTap2[10] = false
+                       noteNum = 21
+                       }
+                       else{
+                           doubleTap2[10] = true
+                           noteNum = 22
+                       }
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
@@ -333,7 +410,14 @@ func MyMIDIReadProc(pktList: UnsafePointer<MIDIPacketList>,
                    }
                    else if(midiVal%12 == 11 && (midiVal/12)-2 <= 4 && (midiVal/12)-2 >= 0){
                        midiVal/=12
-                       noteNum = 11
+                       if(doubleTap2[11] == true){
+                       doubleTap2[11] = false
+                       noteNum = 23
+                       }
+                       else{
+                           doubleTap2[11] = true
+                           noteNum = 24
+                       }
                            if(midiVal-2 >= 0 && midiVal-2 <= 4){
                             midiVal2 = midiVal-2
                                if(inst == 0){
