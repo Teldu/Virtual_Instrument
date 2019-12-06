@@ -306,8 +306,6 @@ class ViewController: NSViewController {
         for n in 0...12{
             stopRecording(eng: curPlayer[n].engine)
         }
-    }
-    @IBAction func mergeTemps(_ sender: Any) {
         mergeAfterStop()
     }
     

@@ -210,14 +210,12 @@ func startRecording(eng: AVAudioEngine) {
 
     try! eng.start()
 }
-let CTemp = [NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C1.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C2.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C3.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C4.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/C5.wav", NSHomeDirectory() + "/Desktop/Virtual_Instrument/AudioFiles/Silence.wav"]
+
+
 func stopRecording(eng: AVAudioEngine) {
-    DispatchQueue.main.asyncAfter(deadline: .now()) {
         eng.stop()
         eng.mainMixerNode.removeTap(onBus: 0)
         outputFile = nil
-    }
-
 }
 
 func mergeAfterStop(){
