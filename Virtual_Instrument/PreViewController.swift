@@ -219,6 +219,7 @@ func stopRecording(eng: AVAudioEngine) {
 }
 
 func mergeAfterStop(){
+    if(outNum != 0){
     outNum-=1
     
     for n in 0...outNum{
@@ -229,6 +230,7 @@ func mergeAfterStop(){
     urlString.removeAll()
     urlArray.removeAll()
     outNum = 0
+    }
 }
 
 var mergeAudioURL = NSURL()
