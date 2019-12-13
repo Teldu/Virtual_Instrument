@@ -284,6 +284,7 @@ class ViewController: NSViewController {
     
     
     //Volume/Pan Functions
+    
     @IBAction func modVolume(_ sender: Any) {
         curPlayer[noteNum].mixerNode.outputVolume = volume.floatValue
         vol = volume.floatValue
@@ -291,7 +292,6 @@ class ViewController: NSViewController {
     
     @IBAction func modPan(_ sender: Any) {
         curPlayer[noteNum].mixerNode.pan = pan.floatValue * -1.0
-        print(pan.floatValue)
         LR = pan.floatValue
     }
     

@@ -236,6 +236,7 @@ func mergeAfterStop(){
 var mergeAudioURL = NSURL()
 
 func mergeAudioFiles(audioFileUrls: NSArray) {
+    let outputFileName = nameFile(title: "Enter file name:", defaultValue: "Out")
     let composition = AVMutableComposition()
 
     for i in 0 ..< audioFileUrls.count {
@@ -252,7 +253,7 @@ func mergeAudioFiles(audioFileUrls: NSArray) {
     }
 
     let documentDirectoryURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first! as NSURL
-    mergeAudioURL = documentDirectoryURL.appendingPathComponent("Out.m4a")! as URL as NSURL
+    mergeAudioURL = documentDirectoryURL.appendingPathComponent(outputFileName + ".m4a")! as URL as NSURL
 
     let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A)
     assetExport?.outputFileType = AVFileType.m4a
@@ -275,4 +276,23 @@ func mergeAudioFiles(audioFileUrls: NSArray) {
                 print("Audio Concatenation Complete")
             }
     })
+}
+
+func nameFile(title: String, defaultValue: String) -> String {
+    let msg = NSAlert()
+    msg.addButton(withTitle: "Save")      // 1st button
+    msg.addButton(withTitle: "Cancel")  // 2nd button
+    msg.messageText = title
+
+    let txt = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
+    txt.stringValue = defaultValue
+
+    msg.accessoryView = txt
+    let response: NSApplication.ModalResponse = msg.runModal()
+
+    if (response == NSApplication.ModalResponse.alertFirstButtonReturn) {
+        return txt.stringValue
+    } else {
+        return ""
+    }
 }
