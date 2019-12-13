@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -955,11 +955,10 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="xBZ-fD-Ovw" secondAttribute="height" multiplier="99:14" id="Vs5-Mu-t5r"/>
                                 </constraints>
-                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="fOz-LU-uHm">
-                                    <connections>
-                                        <action selector="setVolume:" target="XfG-lQ-9wD" id="hth-mp-seo"/>
-                                    </connections>
-                                </sliderCell>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="fOz-LU-uHm"/>
+                                <connections>
+                                    <action selector="modVolume:" target="XfG-lQ-9wD" id="LL6-wM-fTj"/>
+                                </connections>
                             </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FvJ-qb-tFd">
                                 <rect key="frame" x="79" y="326" width="48" height="17"/>
@@ -1535,7 +1534,7 @@
                         <outlet property="mainPan" destination="Dvn-kV-4bv" id="aJH-7d-qjc"/>
                         <outlet property="mainVolume" destination="fOz-LU-uHm" id="4I7-Cr-E94"/>
                         <outlet property="pan" destination="Dvn-kV-4bv" id="1do-8b-rHg"/>
-                        <outlet property="volume" destination="fOz-LU-uHm" id="eYQ-uO-y23"/>
+                        <outlet property="volume" destination="fOz-LU-uHm" id="tsD-KF-5R7"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
